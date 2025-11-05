@@ -12,16 +12,22 @@ services:
       - "4000:4000"
     depends_on:
       - auth-service
+    networks:
+      - apiNetwork
   auth-service:
     build: ./backend/auth-service
     ports:
       - "4001:4001"
     depends_on:
       - event-service
+    networks:
+      - apiNetwork
   event-service:
     build: ./backend/event-service
     ports:
       - "4002:4002"
+    networks:
+      - apiNetwork
   mongo:
     image: mongo
     ports:
@@ -30,3 +36,7 @@ services:
       - mongo-data:/data/db
 volumes:
   mongo-data:
+
+networks:
+  apiNetwork:
+    driver: bridge

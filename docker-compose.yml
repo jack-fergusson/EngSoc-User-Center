@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api-gateway
+  api-gateway:
+    build: ./backend/api-gateway
+    ports:
+      - "4000:4000"
+    depends_on:
+      - auth-service
+  auth-service:
+    build: ./backend/auth-service
+    ports:
+      - "4001:4001"
+    depends_on:
+      - event-service
+  event-service:
+    build: ./backend/event-service
+    ports:
+      - "4002:4002"
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:

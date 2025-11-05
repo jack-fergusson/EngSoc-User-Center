@@ -1,0 +1,30 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: gray;
+  color: white;
+}
+
+.logo * {
+  color: black;
+  text-decoration: none;
+}
+
+.links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-family: var(--font-family);
+}
+
+.nav-links a.active {
+  border-bottom: 2px solid #00bfff;
+}

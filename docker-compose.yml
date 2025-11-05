@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  frontend:
+    build: ./frontend
+    environment:
+      - VITE_API_URL=http://api-gateway:4000
+    ports:
+      - "3000:80"
+    depends_on:
+      - api-gateway
+  api-gateway:
+    build: ./backend/api-gateway
+    ports:
+      - "4000:4000"
+    depends_on:
+      - auth-service
+    networks:
+      - apiNetwork
+  auth-service:
+    build: ./backend/auth-service
+    ports:
+      - "4001:4001"
+    depends_on:
+      - event-service
+    networks:
+      - apiNetwork
+  event-service:
+    build: ./backend/event-service
+    ports:
+      - "4002:4002"
+    networks:
+      - apiNetwork
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
+
+networks:
+  apiNetwork:
+    driver: bridge

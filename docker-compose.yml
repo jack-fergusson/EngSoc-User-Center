@@ -2,6 +2,8 @@ version: "3.8"
 services:
   frontend:
     build: ./frontend
+    environment:
+      - VITE_API_URL=http://api-gateway:4000
     ports:
       - "3000:80"
     depends_on:

@@ -2,29 +2,60 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background: gray;
-  color: white;
+  padding: 0.3vw 2vw;
+  background-image: linear-gradient(
+    to right,
+    var(--color-gray),
+    var(--color-light-purple)
+  );
+  color: black;
+  border-bottom: 0.7px solid black;
+}
+/* 
+* {
+  border: 1px solid red;
+} */
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.logo * {
+.logo img {
+  width: 6vw;
+}
+
+.logo h2 * {
   color: black;
   text-decoration: none;
+  font-family: "Newsreader", serif;
+  font-weight: 500;
+  font-size: 2vw;
+  color: var(--color-dark-purple);
 }
 
 .links {
   list-style: none;
   display: flex;
+  align-items: center;
   gap: 1.5rem;
 }
 
 .links a {
-  color: white;
+  color: black;
   text-decoration: none;
   font-weight: 500;
+  font-size: 1.2vw;
   font-family: var(--font-family);
 }
 
-.nav-links a.active {
-  border-bottom: 2px solid #00bfff;
+.login {
+  margin: 0 3vw;
+  padding: 1vw 2.5vw;
+  background-color: var(--color-dark-purple);
+  border-radius: var(--border-radius);
+  border: none;
+  color: white;
+  font-weight: bold;
 }

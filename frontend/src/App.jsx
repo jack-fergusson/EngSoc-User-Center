@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Calendar from "./pages/Calendar/Calendar";
 import Groups from "./pages/Groups/Groups";
@@ -16,6 +17,8 @@ function App() {
         <Route path="/groups" element={<Groups />} />
         <Route path="/login" element={<Login />} />
       </Routes>
+
+      <Footer />
     </BrowserRouter>
   );
 }

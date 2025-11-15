@@ -1,12 +1,16 @@
 import { Link, NavLink } from "react-router-dom";
 import styles from "./Navbar.module.css";
+import EngSocLogo from "../../assets/EngSocLogo.png";
 
 export default function Navbar() {
   return (
     <nav className={styles.navbar}>
-      <h2 className={styles.logo}>
-        <Link to="/">EngSoc Student Center</Link>
-      </h2>
+      <div className={styles.logo}>
+        <img src={EngSocLogo} alt="EngSoc Logo" />
+        <h2>
+          <Link to="/">EngSoc Student Center</Link>
+        </h2>
+      </div>
 
       <ul className={styles.links}>
         <li>
@@ -21,7 +25,9 @@ export default function Navbar() {
           <NavLink to="/groups">Groups</NavLink>
         </li>
         <li>
-          <NavLink to="/login">Login</NavLink>
+          <NavLink to="/login">
+            <button className={styles.login}>Login</button>
+          </NavLink>
         </li>
       </ul>
     </nav>

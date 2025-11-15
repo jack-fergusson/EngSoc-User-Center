@@ -1,0 +1,91 @@
+.page {
+    width: 100%;
+  min-height: 100vh;
+  background: #f9f9ff;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  }
+  
+  .pageTitle {
+    /* margin: 30px 40px; */
+    padding-top: 30px;
+    margin: 0 30px 40px 40px;
+    height: fit-content;
+    width: fit-content;
+    border-bottom: 2px solid #333;
+  }
+  
+  /* LAYOUT */
+  .layout {
+    display: flex;
+    gap: 40px;
+    padding: 0 40px;
+  }
+  
+  /* SIDEBAR */
+  .sidebar {
+    width: 180px;
+  }
+  
+  .sidebar h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    line-height: 2;
+    font-size: 16px;
+  }
+  
+  /* CALENDAR BOX */
+  .calendarContainer {
+    background: linear-gradient(135deg, #b28cff, #7d63e0);
+    flex-grow: 1;
+    padding: 25px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+    color: white;
+  }
+  
+  .monthHeader {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  
+  /* WEEKDAYS */
+  .weekday {
+    background: #eee;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* DAYS */
+  .day {
+    position: relative;
+    border: 1px solid #f0f0f0;
+    min-height: 90px;
+    padding: 10px;
+  }
+  
+  .dayNumber {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  

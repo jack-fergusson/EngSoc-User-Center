@@ -1,0 +1,115 @@
+.login-container{
+    display: flex;              /* makes children in a row */
+  height: 100vh; 
+     font-family: 'Roboto', sans-serif;
+    margin: 5% 10% 10%;
+    
+}
+.login-form {
+  flex: 1;                     /* takes 50% of width if img also flex:1 */
+  display: flex;
+  flex-direction: column;      /* stack inputs vertically */
+  justify-content: center;     /* vertically center form */
+  align-items: center;         /* horizontally center form content */
+  padding: 3rem 2rem;
+  background-color:#ddd;  /* optional background */
+  border-radius: 10% 0 0 10%;   /* rounded corners on left side */
+   box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+  position: relative;
+  background: rgb(217, 210, 245);
+  color: rgb(22, 22, 22);
+}
+
+/* Form heading */
+.login-form h1 {
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+/* Subtext */
+.login-form p {
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+/* Input fields */
+.login-form input {
+  width: 60%;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* Input focus effect */
+.login-form input:focus {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+/* Login button */
+.login-form button {
+  width: 35%;
+  padding: 0.8rem 1rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 25px;
+  background-color: #ff6a00;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.login-form button:hover {
+  background-color: #ff8c42;
+  transform: translateY(-2px);
+}
+/* Register link */
+.login-form a {
+  margin-top: 1rem;
+  color: rgb(21, 21, 21);
+  text-decoration: underline;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.login-form a:hover {
+  opacity: 1;
+}
+.login-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e3f8;
+  border-radius: 0 10% 10% 0;      /* optional */
+  overflow: hidden;
+}
+.login-image img {
+  max-width: 100%;
+  height: 100%;
+  border-radius: 0 10% 10% 0;
+}
+/* Responsive: stack on smaller screens */
+@media (max-width: 900px) {
+  .login-container {
+    flex-direction: column;
+    height: auto;
+    margin: 2%;
+    border-radius: 15px;
+  }
+  .login-form, .login-image {
+    width: 100%;
+    border-radius: 0;
+  }
+  .login-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+  }
+}

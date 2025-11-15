@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install dependencies
         run: |
@@ -25,5 +25,7 @@ jobs:
           cd ../../frontend
           npm ci
 
-      - name: Run tests
-        run: echo "Tests go here!"
+      - name: Run tests for Auth service
+        run: |
+          cd backend/auth-service
+          npm test

@@ -8,7 +8,7 @@ const Login = () => {
 
   useEffect(() => {
     api
-      .get("/auth/ping")
+      .get("/auth/login")
       .then((res) => {
         setMessage(res.data.message);
         console.log(res.data.message);
@@ -20,7 +20,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-form">
         <h1>Login</h1>
-        <p>How I get started with Engsoc</p>
+        <p>How I get started with Engsoc {message}</p>
         <input type="username" placeholder="Username or Email" />
         <input type="password" placeholder="Enter password" />
         <button className="loginbutton">Login</button>

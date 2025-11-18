@@ -1,124 +1,149 @@
 .page {
-    width: 100%;
+  width: 100%;
   min-height: 100vh;
   background: #f9f9ff;
   font-family: "Inter", sans-serif;
   margin: 0;
   padding: 0;
-  }
+}
   
-  .pageTitle {
-    /* margin: 30px 40px; */
-    padding-top: 30px;
-    margin: 0 30px 40px 40px;
-    height: fit-content;
-    width: fit-content;
-    border-bottom: 2px solid #333;
-  }
+.pageTitle {
+  padding-top: 30px;
+  margin: 0 30px 40px 40px;
+  height: fit-content;
+  width: fit-content;
+  border-bottom: 2px solid #333;
+}
   
   /* LAYOUT */
-  .layout {
-    display: flex;
-    gap: 40px;
-    padding: 0 40px;
-  }
+.layout {
+  display: flex;
+  gap: 40px;
+  padding: 0 40px;
+}
   
   /* SIDEBAR */
-  .sidebar {
-    width: 180px;
-  }
+.sidebar {
+  width: 180px;
+  flex-shrink: 0;
+}
   
-  .sidebar h3 {
-    margin-bottom: 10px;
-    font-size: 20px;
-  }
+.sidebar h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
   
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    line-height: 2;
-    font-size: 16px;
-  }
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 2;
+  font-size: 16px;
+}
   
-  /* CALENDAR BOX */
-  .calendarContainer {
-    background: linear-gradient(135deg, #b28cff, #7d63e0);
-    flex-grow: 1;
-    padding: 25px;
-    margin-bottom: 50px;
-    border-radius: 20px;
-    color: white;
-  }
+/* CALENDAR BOX */
+.calendarContainer {
+  background: linear-gradient(135deg, #b28cff, #7d63e0);
+  flex-grow: 1;
+  padding: 25px;
+  margin-bottom: 50px;
+  border-radius: 20px;
+  color: white;
+}
+
+.monthHeader {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
   
-  .monthHeader {
-    font-size: 24px;
-    margin-bottom: 16px;
-  }
+.dayNumber {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.monthHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
   
-  /* GRID */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    background: white;
-    border-radius: 14px;
-    overflow: hidden;
-  }
+.arrowBtn {
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  color: white;
+  font-size: 22px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
   
-  /* WEEKDAYS */
-  .weekday {
-    background: #eee;
-    color: #000;
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-  }
+.arrowBtn:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
   
-  /* DAYS */
-  .day {
-    position: relative;
-    border: 1px solid #f0f0f0;
-    color: #000;
-    min-height: 90px;
-    padding: 10px;
-  }
+.monthHeader {
+  font-size: 24px;
+  font-weight: 500;
+}
   
-  .dayNumber {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    font-weight: bold;
-    font-size: 14px;
-  }
-  .monthHeaderRow {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  
-  .arrowBtn {
-    background: rgba(255, 255, 255, 0.3);
-    border: none;
-    color: white;
-    font-size: 22px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  
-  .arrowBtn:hover {
-    background: rgba(255, 255, 255, 0.5);
-  }
-  
-  .monthHeader {
-    font-size: 24px;
-    font-weight: 500;
-  }
-  .greyDay {
-    color: #b5b5b5 !important;
-    background: #fafafa;
-  }
-  
-  
+  /* Calendar grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Weekdays */
+.weekday {
+  background: #eee;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Days */
+.day {
+  position: relative;
+  border: 1px solid #f0f0f0;
+  min-height: 95px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.dayNumber {
+  font-weight: bold;
+  font-size: 14px;
+  color: #222;
+}
+
+.greyDay .dayNumber {
+  color: #b5b5b5;
+}
+
+/* Event styling */
+.eventTag {
+  padding: 5px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  word-wrap: break-word;
+  overflow-wrap: break-word;           
+}
+.eventsContainer {
+  margin-top: 28px;      
+  overflow-y: auto;       
+  display: flex;
+  flex-direction: column;
+}

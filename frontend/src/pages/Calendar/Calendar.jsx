@@ -6,17 +6,19 @@ const Calendar = () => {
   const sampleEvents = [
     {
       id: 1,
-      title: "EngWeekKickoffEngWeek Kickoff EngWeek Kickoff EngWeek Kickoff EngWeek Kickoff",
+      title: "EngWeek Kickoff",
       date: "2025-11-15",
       category: "Event",
       group: "EngSoc",
+      price: 0,
     },
     {
       id: 2,
-      title: "Coding WorkshopCoding WorkshopCoding WorkshopCoding WorkshopCoding WorkshopCoding ",
+      title: "Coding Workshop",
       date: "2025-11-15",
       category: "Workshop",
       group: "CS Club",
+      price: 20,
     },
     {
       id: 3,
@@ -24,13 +26,15 @@ const Calendar = () => {
       date: "2025-11-15",
       category: "Social",
       group: "AMS",
+      price: 5,
     },
     {
       id: 4,
-      title: "Coffeehouse",
-      date: "2025-11-15",
-      category: "Social",
-      group: "AMS",
+      title: "Math Club Meeting",
+      date: "2025-11-16",
+      category: "Event",
+      group: "MathSoc",
+      price: 0,
     },
   ];
 
@@ -38,12 +42,35 @@ const Calendar = () => {
   const [groupToggle, setGroupToggle] = useState(false);
   const [categoryToggle, setCategoryToggle] = useState(false);
   const [priceToggle, setPriceToggle] = useState(false);
+  const [selectedGroups, setSelectedGroups] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
+  // === FILTER EVENTS ===
+  const filteredEvents = events.filter((event) => {
+    const eventPrice = event.price || 0; // Assume price is 0 if not provided
+
+    // Check group filter
+    const groupMatch =
+      selectedGroups.length === 0 || selectedGroups.includes(event.group);
+
+    // Check category filter
+    const categoryMatch =
+      selectedCategories.length === 0 ||
+      selectedCategories.includes(event.category);
+
+    // Check price filter
+    const priceMatch =
+      (minPrice === "" || eventPrice >= parseFloat(minPrice)) &&
+      (maxPrice === "" || eventPrice <= parseFloat(maxPrice));
+
+    return groupMatch && categoryMatch && priceMatch;
+  });
+
   // === GROUP EVENTS BY DATE ===
   const eventsByDate = {};
-  events.forEach((event) => {
+  filteredEvents.forEach((event) => {
     if (!eventsByDate[event.date]) {
       eventsByDate[event.date] = [];
     }
@@ -98,6 +125,24 @@ const Calendar = () => {
     nextDay++;
   }
 
+  // === HANDLE GROUP SELECTION ===
+  const handleGroupSelection = (group) => {
+    setSelectedGroups((prev) =>
+      prev.includes(group)
+        ? prev.filter((g) => g !== group)
+        : [...prev, group]
+    );
+  };
+
+  // === HANDLE CATEGORY SELECTION ===
+  const handleCategorySelection = (category) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  };
+
   // === MONTH SWITCHING ===
   const handlePrevMonth = () => {
     setCurrentDate(new Date(year, month - 1, 1));
@@ -139,7 +184,12 @@ const Calendar = () => {
                 <ul key={group} className={styles.sublist}>
                   <li>
                     <label htmlFor={group}>{group}</label>
-                    <input type="checkbox" id={group} name={group} />
+                    <input
+                      type="checkbox"
+                      id={group}
+                      name={group}
+                      onChange={() => handleGroupSelection(group)}
+                    />
                   </li>
                 </ul>
               ))
@@ -148,11 +198,16 @@ const Calendar = () => {
               Categories {categoryToggle ? <span>▼</span> : <span>▶</span>}
             </li>
             {categoryToggle &&
-              ["Workshop", "Events", "Social"].map((group) => (
-                <ul key={group} className={styles.sublist}>
+              ["Workshop", "Event", "Social"].map((category) => (
+                <ul key={category} className={styles.sublist}>
                   <li>
-                    <label htmlFor={group}>{group}</label>
-                    <input type="checkbox" id={group} name={group} />
+                    <label htmlFor={category}>{category}</label>
+                    <input
+                      type="checkbox"
+                      id={category}
+                      name={category}
+                      onChange={() => handleCategorySelection(category)}
+                    />
                   </li>
                 </ul>
               ))
@@ -235,9 +290,9 @@ const Calendar = () => {
                 {eventsByDate[cell.fullDate]?.length > 3 && (
                   <button
                     className={styles.seeMoreButton}
-                    onClick={() => handleSeeMore(cell.fullDate)}
+                    onClick={() => console.log("See more events for", cell.fullDate)}
                   >
-                    See More...
+                    See More
                   </button>
                 )}
               </div>

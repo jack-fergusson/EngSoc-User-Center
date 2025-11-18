@@ -14,22 +14,36 @@ const Calendar = () => {
     {
       id: 2,
       title: "Coding WorkshopCoding WorkshopCoding WorkshopCoding WorkshopCoding WorkshopCoding ",
-      date: "2025-11-16",
+      date: "2025-11-15",
       category: "Workshop",
       group: "CS Club",
     },
     {
       id: 3,
       title: "Coffeehouse",
-      date: "2025-11-17",
+      date: "2025-11-15",
+      category: "Social",
+      group: "AMS",
+    },
+    {
+      id: 4,
+      title: "Coffeehouse",
+      date: "2025-11-15",
       category: "Social",
       group: "AMS",
     },
   ];
 
+  const [events, setEvents] = useState(sampleEvents);
+  const [groupToggle, setGroupToggle] = useState(false);
+  const [categoryToggle, setCategoryToggle] = useState(false);
+  const [priceToggle, setPriceToggle] = useState(false);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+
   // === GROUP EVENTS BY DATE ===
   const eventsByDate = {};
-  sampleEvents.forEach((event) => {
+  events.forEach((event) => {
     if (!eventsByDate[event.date]) {
       eventsByDate[event.date] = [];
     }
@@ -117,10 +131,55 @@ const Calendar = () => {
         <aside className={styles.sidebar}>
           <h3>Filter</h3>
           <ul>
-            <li>Groups ▸</li>
-            <li>Categories ▸</li>
-            <li>Date Range ▸</li>
-            <li>Price ▸</li>
+            <li onClick={() => setGroupToggle(!groupToggle)}>
+              Groups {groupToggle ? <span>▼</span> : <span>▶</span>}
+            </li>
+            {groupToggle &&
+              ["EngSoc", "CS Club", "AMS", "SciFormal", "MathSoc"].map((group) => (
+                <ul key={group} className={styles.sublist}>
+                  <li>
+                    <label htmlFor={group}>{group}</label>
+                    <input type="checkbox" id={group} name={group} />
+                  </li>
+                </ul>
+              ))
+            }
+            <li onClick={() => setCategoryToggle(!categoryToggle)}>
+              Categories {categoryToggle ? <span>▼</span> : <span>▶</span>}
+            </li>
+            {categoryToggle &&
+              ["Workshop", "Events", "Social"].map((group) => (
+                <ul key={group} className={styles.sublist}>
+                  <li>
+                    <label htmlFor={group}>{group}</label>
+                    <input type="checkbox" id={group} name={group} />
+                  </li>
+                </ul>
+              ))
+            }
+            <li onClick={() => setPriceToggle(!priceToggle)}>
+              Price {priceToggle ? <span>▼</span> : <span>▶</span>}
+            </li>
+            {priceToggle && (
+              <div className={styles.priceRange}>
+                <label htmlFor="minPrice">Min:</label>
+                <input
+                  type="number"
+                  id="minPrice"
+                  name="minPrice"
+                  placeholder="0"
+                  onChange={(e) => setMinPrice(e.target.value)}
+                />
+                <label htmlFor="maxPrice">Max:</label>
+                <input
+                  type="number"
+                  id="maxPrice"
+                  name="maxPrice"
+                  placeholder="100"
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                />
+              </div>
+            )}
           </ul>
         </aside>
 
@@ -160,18 +219,27 @@ const Calendar = () => {
               <span className={styles.dayNumber}>{cell.day}</span>
             
               <div className={styles.eventsContainer}>
-                {eventsByDate[cell.fullDate]?.map((event) => (
+                {eventsByDate[cell.fullDate]?.slice(0, 3).map((event) => (
                   <div
                     key={event.id}
                     className={styles.eventTag}
                     style={{
                       backgroundColor: getGroupColor(event.group),
-                      color: "black"
+                      color: "black",
                     }}
                   >
                     {event.title}
                   </div>
                 ))}
+
+                {eventsByDate[cell.fullDate]?.length > 3 && (
+                  <button
+                    className={styles.seeMoreButton}
+                    onClick={() => handleSeeMore(cell.fullDate)}
+                  >
+                    See More...
+                  </button>
+                )}
               </div>
             </div>
             

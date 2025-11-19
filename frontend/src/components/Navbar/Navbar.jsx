@@ -19,6 +19,9 @@ export default function Navbar() {
           </NavLink>
         </li>
         <li>
+          <NavLink to="/about">About</NavLink>
+        </li>
+        <li>
           <NavLink to="/calendar">Calendar</NavLink>
         </li>
         <li>

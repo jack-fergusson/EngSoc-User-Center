@@ -7,7 +7,7 @@ const API_URL = "http://localhost:4000";
 
 beforeAll(() => {
   console.log("Starting Docker environment...");
-  execSync("docker-compose up -d --build", { stdio: "inherit" });
+  execSync("docker compose up -d --build", { stdio: "inherit" });
 
   // Wait for containers to become ready
   console.log("Waiting for services to stabilize...");
@@ -16,7 +16,7 @@ beforeAll(() => {
 
 afterAll(() => {
   console.log("Stopping Docker environment...");
-  execSync("docker-compose down --volumes", { stdio: "inherit" });
+  execSync("docker compose down --volumes", { stdio: "inherit" });
 }, 90000);
 
 // Test the gateway → auth-service → ping

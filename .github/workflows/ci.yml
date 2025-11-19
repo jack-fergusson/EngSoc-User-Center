@@ -20,6 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          npm ci
           cd backend/auth-service
           npm ci
           cd ../../frontend
@@ -29,3 +30,7 @@ jobs:
         run: |
           cd backend/auth-service
           npm test
+
+      - name: Run docker system tests
+        run: |
+          npm run test:system

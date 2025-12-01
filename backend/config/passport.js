@@ -9,13 +9,13 @@ module.exports = function (passport) {
   passport.use(new GoogleStrategy({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/callback"
+      callbackURL: `${process.env.VITE_MYBACKEND_ENV || 'http://localhost:3000'}/auth/google/callback`
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        let user = await User.findOne({ googleId: profile.id });
+        let user = await User.findOne({ email: profile.emails[0].value });// check if already user email is registered
 
-        if (!user) {
+        if (!user) {// if not, new user create
           user = await User.create({
             username: profile.displayName,
             googleId: profile.id,

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import api from "../../api";
 import styles from "./Navbar.module.css";
 import EngSocLogo from "../../assets/EngSocLogo.png";
+const BACKEND_URL = import.meta.env.VITE_MYBACKEND_ENV || "http://localhost:3000";
+
 
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -10,22 +12,33 @@ export default function Navbar() {
 
   // check login status ONCE when navbar loads
   useEffect(() => {
-    api.get("/auth/check", { withCredentials: true })
-      .then(res => {
-        if (res.data.loggedIn) {
-          setLoggedIn(true);
-          setUser(res.data.user);
-        }
-      })
-      .catch(() => setLoggedIn(false));
+    const checkLogin = async () => {
+      try {
+        const res = await api.get("/auth/check", { withCredentials: true });
+        setLoggedIn(res.data.loggedIn);
+        setUser(res.data.user || null);
+      } catch {
+        setLoggedIn(false);
+        setUser(null);
+      }
+    };
+
+    checkLogin();
+
+    window.addEventListener("authChanged", checkLogin);
+
+    return () => {
+      window.removeEventListener("authChanged", checkLogin);
+    };
   }, []);
 
 const handleLogout = async () => {
   try {
-    await fetch(`http://localhost:3000`, {
+   await fetch(`${BACKEND_URL}/auth/logout`, {
       method: "POST",
-      credentials: "include",   // <--- REQUIRED// send backend, current user's session data to destroy,after logout
+      credentials: "include",  // very important for cookies
     });
+     window.dispatchEvent(new Event("authChanged"));
 
     window.location.href = "/login";
   } catch (err) {

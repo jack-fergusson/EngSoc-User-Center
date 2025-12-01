@@ -14,7 +14,7 @@ router.get("/google",
 router.get("/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/login",
-    successRedirect: "http://localhost:5173/" // your frontend home, after google authentication, user will return here
+    successRedirect: process.env.VITE_API_URL // your frontend home, after google authentication, user will return here
   })
 );
 

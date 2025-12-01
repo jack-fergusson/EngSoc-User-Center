@@ -1,4 +1,4 @@
-import express from "express";
+const express = require("express");
 const router = express.Router();
 
 router.get("/login", (req, res) => {
@@ -9,4 +9,4 @@ router.get("/ping", (req, res) => {
   res.send("pong");
 });
 
-export default router;
+module.exports = router;

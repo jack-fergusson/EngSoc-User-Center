@@ -11,13 +11,13 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: process.env.VITE_API_URL,
   credentials: true
 }));
 app.use(express.json());
 // session middleware
 app.use(session({
-  secret: "mysecretkey",
+  secret:  process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false }

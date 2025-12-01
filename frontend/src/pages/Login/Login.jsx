@@ -1,8 +1,9 @@
 import { useState } from "react";
-import api from "../../api";
+import api from "../../api"; // axios instance
 import "./Login.css";
 import loginPic from "/images/loginpage.png";
-import googlePic from "/images/image.png";
+import googlePic from "/images/image.png"; 
+const BACKEND_URL = import.meta.env.VITE_MYBACKEND_ENV;
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const Login = () => {
   });
   
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     setFormData({ 
@@ -20,18 +22,26 @@ const Login = () => {
   };
 
   const handleSubmit = async () => {
+    setError("");
+    setSuccess("");
     try {
       const res = await api.post("/auth/login", formData, {
-        withCredentials: true,  // important for sessions
+        withCredentials: true,  // required for session cookies
       });
 
       if (res.data.success) {
-        window.location.href = "/";  // or your home page
+        setSuccess("Login successful! Redirecting...");
+
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
+        window.dispatchEvent(new Event("authChanged"));
+
       } else {
-        setError(res.data.message || "Invalid login.");
+        setError(res.data.message || "Wrong credentials. Try again.");
       }
     } catch (err) {
-      setError("Login failed. Check your credentials.");
+      setError(err.response?.data?.message || "Login failed. Check your credentials.");
     }
   };
 
@@ -41,12 +51,13 @@ const Login = () => {
         <h1>Login</h1>
         <p>Welcome back. Please login to continue.</p>
 
-        {error && <p className="error">{error}</p>}
+        {error && <p className="message error">{error}</p>}
+        {success && <p className="message success">{success}</p>}
 
         <input
           type="text"
           name="username"
-          placeholder="Username or Email"
+          placeholder="Email"
           value={formData.username}
           onChange={handleChange}
         />
@@ -59,25 +70,25 @@ const Login = () => {
           onChange={handleChange}
         />
 
-        <button className="loginbutton" onClick={handleSubmit}>
+        <button className="login-btn" onClick={handleSubmit}>
           Login
         </button>
 
-        <a href="/register">Register here</a>
-        <a href="http://localhost:3000/auth/google" className="google-btn">
-          <div className="google-icon-wrapper">
-            <img
-              className="google-icon"
-              src={googlePic}
-              alt="Google Logo"
-            />
-          </div>
-          <span className="btn-text">Sign in with Google</span>
+        <p className="divider">OR</p>
+
+        {/* Google Sign-In */}
+        <a href={`${BACKEND_URL}/auth/google`} className="google-btn">      
+          <img src={googlePic} alt="Google Logo" className="google-icon" />
+          <span>Sign in with Google</span>
         </a>
+
+        <p className="login-link">
+          Don't have an account? <a href="/register">Register here</a>
+        </p>
       </div>
 
       <div className="login-image">
-        <img src={loginPic} alt="girl in jacket" />
+        <img src={loginPic} alt="login illustration" />
       </div>
     </div>
   );

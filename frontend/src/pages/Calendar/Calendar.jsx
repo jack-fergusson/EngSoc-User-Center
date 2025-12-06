@@ -171,25 +171,30 @@ const Calendar = () => {
   };
   return (
     <div className={styles.page}>
-      <h2 className={styles.pageTitle}>Calendar</h2>
-      <button
-        className={styles.hamburger}
-        onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+      <div className={styles.pageHeader}>
+        <h2 className={styles.pageTitle}>Calendar</h2>
+        <button
+          className={styles.hamburger}
+          onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+        >
+          <div></div>
+          <div></div>
+          <div></div>
+        </button>
+      </div>
+
+
+      <div
+        className={`${styles.layout} ${mobileFiltersOpen ? styles.layoutShift : ""
+          }`}
       >
-        <div></div>
-        <div></div>
-        <div></div>
-      </button>
-
-
-      <div className={styles.layout}>
         {/* SIDEBAR */}
-        {/* SIDEBAR / FILTERS */}
         <aside
           className={`${styles.sidebar} ${mobileFiltersOpen ? styles.sidebarOpen : ""
             }`}
         >
           <h3>Filter</h3>
+
           <ul>
             {/* GROUPS */}
             <li onClick={() => setGroupToggle(!groupToggle)}>
@@ -259,14 +264,15 @@ const Calendar = () => {
             )}
           </ul>
 
-          {/* MOBILE ONLY: Close button */}
+          {/* Mobile close button */}
           <button
             className={styles.mobileCloseBtn}
             onClick={() => setMobileFiltersOpen(false)}
           >
-            Close
+            Close Filters
           </button>
         </aside>
+
 
 
         {/* CALENDAR */}

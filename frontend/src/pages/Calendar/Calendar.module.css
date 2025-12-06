@@ -20,12 +20,12 @@
   display: flex;
   gap: 40px;
   padding: 0 40px;
-  transition: margin-left 0.3s ease;
+  transition: margin-left 0.3s ease; /* Keep this for desktop behavior */
 }
 
-/* When mobile sidebar opens, push layout */
+/* When mobile sidebar opens, prevent layout shifting */
 .layoutShift {
-  margin-left: 240px;
+  margin-left: 0; /* Prevent layout shifting when sidebar opens */
 }
 
 /* SIDEBAR — Desktop default */
@@ -33,7 +33,8 @@
   width: 180px;
   flex-shrink: 0;
   transition: transform 0.3s ease;
-  position: relative;
+  position: relative; /* Default position */
+  z-index: 10;
 }
 
 .sidebar h3 {
@@ -95,10 +96,21 @@
   width: 80%;
 }
 
+/* SIDEBAR — Mobile open */
+.sidebarOpen {
+  position: absolute; /* Overlay the calendar */
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #fff; /* Ensure the sidebar has a background */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Add a shadow for better visibility */
+  z-index: 20; /* Ensure it appears above other content */
+}
+
 /* CALENDAR BOX */
 .calendarContainer {
-  background: linear-gradient(135deg, #b28cff, #7d63e0);
   flex-grow: 1;
+  background: linear-gradient(135deg, #b28cff, #7d63e0);
   padding: 25px;
   margin-bottom: 50px;
   border-radius: 20px;
@@ -207,7 +219,8 @@
   border: none;
   padding: 10;
   cursor: pointer;
-  margin-left: 20px;
+  margin-top: 30px;
+  margin-right: 15px;
   margin-bottom: 20px;
 }
 
@@ -228,6 +241,13 @@
 /* -------------------------------------------------- */
 /* --- FIX MOBILE CALENDAR LAYOUT --- */
 @media (max-width: 768px) {
+
+  .pageHeader {
+    display: flex;
+    align-items: center; /* Vertically align items */
+    justify-content: space-between; /* Push title and hamburger to opposite ends */
+    padding: 0 20px; /* Add some horizontal padding */
+  }
 
   .pageTitle {
     margin-left: 20px;

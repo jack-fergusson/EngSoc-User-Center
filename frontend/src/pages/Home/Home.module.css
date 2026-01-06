@@ -1,0 +1,170 @@
+.pageWrapper {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: #f6f2ff;
+  font-family: "Inter", sans-serif;
+}
+
+/* ----- HERO POPUP ----- */
+
+.heroPopup {
+  width: 70%;
+  margin: 40px auto;
+  padding: 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.heroTitle {
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.heroTitle span {
+  font-style: italic;
+  font-weight: 600;
+}
+
+.heroSubtitle {
+  margin-top: 10px;
+  font-size: 28px;
+  color: #6b4cff;
+  font-weight: 600;
+}
+
+.signUpBtn {
+  margin-top: 20px;
+  padding: 12px 32px;
+  background: #b250ff;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* ----- BANNER CARDS ----- */
+
+.bannerSection {
+  width: 90%;
+  margin: 30px auto;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.bannerCard {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+/* ----- SECTION TITLES ----- */
+.sectionWrapper {
+  width: 90%;
+  margin: 40px auto;
+}
+
+.sectionTitle {
+  font-size: 26px;
+  font-weight: 700;
+  color: #a885ff;
+}
+.sectionTitle span {
+  color: black;
+  font-weight: 500;
+}
+
+.splitContainer {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.sideImage {
+  width: 45%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.postsColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.postCard {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.postAuthor {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.postText {
+  opacity: 0.8;
+}
+
+/* ----- CALENDAR BOX ----- */
+.calendarBox {
+  width: 55%;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+/* ----- FOOTER ----- */
+.footer {
+  text-align: center;
+  padding: 40px;
+  color: #444;
+  font-size: 14px;
+}
+
+.signUpBtn {
+  margin-top: 20px;
+  padding: 12px 32px;
+  background: #b250ff;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.signUpBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(178, 80, 255, 0.4);
+}
+
+
+
+.loginBtn {
+  padding: 12px 32px;
+  background: #6b4cff;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+
+  /* Smooth animation */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.loginBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(107, 76, 255, 0.4);
+}

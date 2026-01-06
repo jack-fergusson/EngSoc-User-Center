@@ -1,0 +1,212 @@
+.page {
+  width: 100%;
+  min-height: 100vh;
+  background: #f9f9ff;
+  font-family: "Inter", sans-serif;
+  padding: 40px;
+}
+
+.container {
+  display: flex;
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Sidebar Card */
+.sidebar {
+  width: 350px;
+  flex-shrink: 0;
+}
+
+.clubCard {
+  background: #f0f0f0;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.clubImageContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.clubImage {
+  width: 250px;
+  height: 250px;
+  object-fit: contain;
+  display: block;
+}
+
+.clubName {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.clubDescription {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+.contactSection {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #ddd;
+}
+
+.contactHeading {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.contactInfo {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+/* Main Content */
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.headerSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.mainTitle {
+  font-size: 36px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.subscribeButton {
+  background-color: var(--color-dark-purple);
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.subscribeButton:hover {
+  background-color: #550088;
+}
+
+/* Custom Content Section */
+.customContentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.sectionSubtitle {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+.customContentBox {
+  background: #f0f0f0;
+  border-radius: 12px;
+  padding: 24px;
+  min-height: 150px;
+}
+
+.customContentText {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+}
+
+/* Events Section */
+.eventsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.eventsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.eventCard {
+  display: flex;
+  gap: 20px;
+  background: #f0f0f0;
+  border-radius: 12px;
+  padding: 20px;
+  align-items: flex-start;
+}
+
+.eventDateBox {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.eventMonth {
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.eventDay {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.eventContent {
+  flex: 1;
+}
+
+.eventTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.eventDescription {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #666;
+  margin: 0;
+}
+

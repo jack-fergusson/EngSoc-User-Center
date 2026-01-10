@@ -1,17 +1,17 @@
 import { useState } from "react";
-import "./register.css";
+import "./Register.css";
 import loginPic from "/images/loginpage.png";
 import googleIcon from "/images/image.png"; // local google icon
-import api from "../../api"; 
-const BACKEND_URL = import.meta.env.VITE_MYBACKEND_ENV || "http://localhost:3000";
-
+import api from "../../api";
+const BACKEND_URL =
+  import.meta.env.VITE_MYBACKEND_ENV || "http://localhost:3000";
 
 const Register = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const [error, setError] = useState("");
@@ -21,7 +21,7 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
@@ -58,7 +58,6 @@ const Register = () => {
         {success && <p className="message success">{success}</p>}
 
         <form onSubmit={handleSubmit}>
-
           <input
             type="text"
             name="username"
@@ -95,18 +94,22 @@ const Register = () => {
             onChange={handleChange}
           />
 
-          <button type="submit" className="register-btn">Register</button> 
+          <button type="submit" className="register-btn">
+            Register
+          </button>
         </form>
 
         <p className="divider">OR</p>
 
         {/* Google Sign-in */}
-        <a href={`${BACKEND_URL}/auth/google`} className="google-btn">      
-            <img src={googleIcon} alt="Google Logo" className="google-icon"/>
+        <a href={`${BACKEND_URL}/auth/google`} className="google-btn">
+          <img src={googleIcon} alt="Google Logo" className="google-icon" />
           <span>Sign in with Google</span>
         </a>
 
-        <p className="login-link">Already have an account? <a href="/login">Login here</a></p>
+        <p className="login-link">
+          Already have an account? <a href="/login">Login here</a>
+        </p>
       </div>
 
       <div className="register-image">

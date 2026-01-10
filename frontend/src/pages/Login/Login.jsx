@@ -2,7 +2,7 @@ import { useState } from "react";
 import api from "../../api"; // axios instance
 import "./Login.css";
 import loginPic from "/images/loginpage.png";
-import googlePic from "/images/image.png"; 
+import googlePic from "/images/image.png";
 const BACKEND_URL = import.meta.env.VITE_MYBACKEND_ENV;
 
 const Login = () => {
@@ -10,14 +10,14 @@ const Login = () => {
     username: "",
     password: "",
   });
-  
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ 
-      ...formData, 
-      [e.target.name]: e.target.value 
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -26,7 +26,7 @@ const Login = () => {
     setSuccess("");
     try {
       const res = await api.post("/auth/login", formData, {
-        withCredentials: true,  // required for session cookies
+        withCredentials: true, // required for session cookies
       });
 
       if (res.data.success) {
@@ -36,12 +36,13 @@ const Login = () => {
           window.location.href = "/";
         }, 1000);
         window.dispatchEvent(new Event("authChanged"));
-
       } else {
         setError(res.data.message || "Wrong credentials. Try again.");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed. Check your credentials.");
+      setError(
+        err.response?.data?.message || "Login failed. Check your credentials."
+      );
     }
   };
 
@@ -77,7 +78,7 @@ const Login = () => {
         <p className="divider">OR</p>
 
         {/* Google Sign-In */}
-        <a href={`${BACKEND_URL}/auth/google`} className="google-btn">      
+        <a href={`${BACKEND_URL}/auth/google`} className="google-btn">
           <img src={googlePic} alt="Google Logo" className="google-icon" />
           <span>Sign in with Google</span>
         </a>

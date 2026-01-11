@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import api from "../../api";
 import styles from "./Navbar.module.css";
 import EngSocLogo from "../../assets/EngSocLogo.png";
-const BACKEND_URL = import.meta.env.VITE_MYBACKEND_ENV || "http://localhost:3000";
-
+const BACKEND_URL =
+  import.meta.env.VITE_MYBACKEND_ENV || "http://localhost:3000";
 
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -14,7 +14,9 @@ export default function Navbar() {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await api.get("/auth/check", { withCredentials: true });
+        const res = await api.get("/authentication/check", {
+          withCredentials: true,
+        });
         setLoggedIn(res.data.loggedIn);
         setUser(res.data.user || null);
       } catch {
@@ -32,19 +34,19 @@ export default function Navbar() {
     };
   }, []);
 
-const handleLogout = async () => {
-  try {
-   await fetch(`${BACKEND_URL}/auth/logout`, {
-      method: "POST",
-      credentials: "include",  // very important for cookies
-    });
-     window.dispatchEvent(new Event("authChanged"));
+  const handleLogout = async () => {
+    try {
+      await fetch(`${BACKEND_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include", // very important for cookies
+      });
+      window.dispatchEvent(new Event("authChanged"));
 
-    window.location.href = "/login";
-  } catch (err) {
-    console.error("Logout error:", err);
-  }
-};
+      window.location.href = "/login";
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
+  };
 
   return (
     <nav className={styles.navbar}>

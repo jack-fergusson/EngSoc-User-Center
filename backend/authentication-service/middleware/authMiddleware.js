@@ -1,5 +1,5 @@
-const User = require('../models/User');
-const passport = require('passport');
+const User = require("../models/User");
+const passport = require("passport");
 
 exports.register = async (req, res) => {
   const { username, email, password } = req.body;
@@ -7,7 +7,7 @@ exports.register = async (req, res) => {
   if (!username || !email || !password) {
     return res.status(400).json({
       success: false,
-      message: "All fields are required"
+      message: "All fields are required",
     });
   }
 
@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
     if (existing) {
       return res.status(400).json({
         success: false,
-        message: "User's Email already exists"
+        message: "User's Email already exists",
       });
     }
 
@@ -27,13 +27,13 @@ exports.register = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "User registered successfully"
+      message: "User registered successfully",
     });
   } catch (err) {
     console.error("REGISTER ERROR:", err);
     return res.status(500).json({
       success: false,
-      message: "Server error during registration"
+      message: "Server error during registration",
     });
   }
 };
@@ -41,7 +41,8 @@ exports.register = async (req, res) => {
 exports.login = (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
-    if (!user) return res.status(400).json({ success: false, message: info.message });
+    if (!user)
+      return res.status(400).json({ success: false, message: info.message });
 
     req.logIn(user, (err) => {
       if (err) return next(err);
@@ -58,7 +59,7 @@ exports.check = (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  req.logout(err => {
+  req.logout((err) => {
     if (err) return res.status(500).json({ success: false });
 
     req.session.destroy(() => {

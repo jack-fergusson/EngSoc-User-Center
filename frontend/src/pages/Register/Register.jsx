@@ -4,7 +4,7 @@ import loginPic from "/images/loginpage.png";
 import googleIcon from "/images/image.png"; // local google icon
 import api from "../../api";
 const BACKEND_URL =
-  import.meta.env.VITE_MYBACKEND_ENV || "http://localhost:3000";
+  import.meta.env.VITE_MYBACKEND_ENV || "http://localhost:3001";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ const Register = () => {
     }
 
     try {
-      const res = await api.post("/auth/register", formData);
+      const res = await api.post("/authentication/register", formData);
 
       if (res.data.success) {
         setSuccess("Account created successfully! Redirecting to login...");
@@ -102,7 +102,7 @@ const Register = () => {
         <p className="divider">OR</p>
 
         {/* Google Sign-in */}
-        <a href={`${BACKEND_URL}/auth/google`} className="google-btn">
+        <a href={`${BACKEND_URL}/authentication/google`} className="google-btn">
           <img src={googleIcon} alt="Google Logo" className="google-icon" />
           <span>Sign in with Google</span>
         </a>

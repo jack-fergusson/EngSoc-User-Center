@@ -25,7 +25,7 @@ const Login = () => {
     setError("");
     setSuccess("");
     try {
-      const res = await api.post("/auth/login", formData, {
+      const res = await api.post("/authentication/login", formData, {
         withCredentials: true, // required for session cookies
       });
 
@@ -78,7 +78,7 @@ const Login = () => {
         <p className="divider">OR</p>
 
         {/* Google Sign-In */}
-        <a href={`${BACKEND_URL}/auth/google`} className="google-btn">
+        <a href={`${BACKEND_URL}/authentication/google`} className="google-btn">
           <img src={googlePic} alt="Google Logo" className="google-icon" />
           <span>Sign in with Google</span>
         </a>

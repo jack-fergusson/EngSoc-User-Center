@@ -6,6 +6,14 @@ const app = express();
 app.use(cors());
 
 app.use(
+  "/authentication",
+  createProxyMiddleware({
+    target: "http://authentication-service:3001",
+    changeOrigin: true,
+  })
+);
+
+app.use(
   "/auth",
   createProxyMiddleware({
     target: "http://auth-service:4001",

@@ -6,15 +6,18 @@ const Home = () => {
 
   useEffect(() => {
     // Check login status and fetch user info
-    api.get("/auth/check").then(res => {
-      if (!res.data.loggedIn) {
-        window.location.href = "/login"; // Redirect if not logged in
-      } else {
-        setUser(res.data.user); // Set user data
-      }
-    }).catch(err => {
-      console.error("Error fetching user:", err);
-    });
+    api
+      .get("/authentication/check")
+      .then((res) => {
+        if (!res.data.loggedIn) {
+          window.location.href = "/login"; // Redirect if not logged in
+        } else {
+          setUser(res.data.user); // Set user data
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching user:", err);
+      });
   }, []);
 
   return (

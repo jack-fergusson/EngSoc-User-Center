@@ -4,15 +4,15 @@ const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
 
-const connectDB = require("./config/db");
-const passportConfig = require("./config/passport");
+const connectDB = require("../config/db");
+const passportConfig = require("../config/passport");
 
 const app = express();
 
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -37,9 +37,11 @@ connectDB();
 passportConfig(passport);
 
 // Routes
-app.use("/auth", require("./routes/auth"));
+app.use("/authentication", require("./routes"));
 
-// Server
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
-});
+module.exports = app;
+
+// // Server
+// app.listen(3000, () => {
+//   console.log("Server running on port 3000");
+// });

@@ -46,6 +46,8 @@ const Calendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
 
   // === FILTER EVENTS ===
   const filteredEvents = events.filter((event) => {
@@ -169,13 +171,32 @@ const Calendar = () => {
   };
   return (
     <div className={styles.page}>
-      <h2 className={styles.pageTitle}>Calendar</h2>
+      <div className={styles.pageHeader}>
+        <h2 className={styles.pageTitle}>Calendar</h2>
+        <button
+          className={styles.hamburger}
+          onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+        >
+          <div></div>
+          <div></div>
+          <div></div>
+        </button>
+      </div>
 
-      <div className={styles.layout}>
+
+      <div
+        className={`${styles.layout} ${mobileFiltersOpen ? styles.layoutShift : ""
+          }`}
+      >
         {/* SIDEBAR */}
-        <aside className={styles.sidebar}>
+        <aside
+          className={`${styles.sidebar} ${mobileFiltersOpen ? styles.sidebarOpen : ""
+            }`}
+        >
           <h3>Filter</h3>
+
           <ul>
+            {/* GROUPS */}
             <li onClick={() => setGroupToggle(!groupToggle)}>
               Groups {groupToggle ? <span>▼</span> : <span>▶</span>}
             </li>
@@ -188,12 +209,14 @@ const Calendar = () => {
                       type="checkbox"
                       id={group}
                       name={group}
+                      checked={selectedGroups.includes(group)}
                       onChange={() => handleGroupSelection(group)}
                     />
                   </li>
                 </ul>
-              ))
-            }
+              ))}
+
+            {/* CATEGORIES */}
             <li onClick={() => setCategoryToggle(!categoryToggle)}>
               Categories {categoryToggle ? <span>▼</span> : <span>▶</span>}
             </li>
@@ -206,12 +229,14 @@ const Calendar = () => {
                       type="checkbox"
                       id={category}
                       name={category}
+                      checked={selectedCategories.includes(category)}
                       onChange={() => handleCategorySelection(category)}
                     />
                   </li>
                 </ul>
-              ))
-            }
+              ))}
+
+            {/* PRICE */}
             <li onClick={() => setPriceToggle(!priceToggle)}>
               Price {priceToggle ? <span>▼</span> : <span>▶</span>}
             </li>
@@ -222,6 +247,7 @@ const Calendar = () => {
                   type="number"
                   id="minPrice"
                   name="minPrice"
+                  value={minPrice}
                   placeholder="0"
                   onChange={(e) => setMinPrice(e.target.value)}
                 />
@@ -230,13 +256,24 @@ const Calendar = () => {
                   type="number"
                   id="maxPrice"
                   name="maxPrice"
+                  value={maxPrice}
                   placeholder="100"
                   onChange={(e) => setMaxPrice(e.target.value)}
                 />
               </div>
             )}
           </ul>
+
+          {/* Mobile close button */}
+          <button
+            className={styles.mobileCloseBtn}
+            onClick={() => setMobileFiltersOpen(false)}
+          >
+            Close Filters
+          </button>
         </aside>
+
+
 
         {/* CALENDAR */}
         <div className={styles.calendarContainer}>
@@ -268,36 +305,36 @@ const Calendar = () => {
             {/* 42 days */}
             {calendarCells.map((cell, i) => (
               <div
-              key={i}
-              className={`${styles.day} ${!cell.isCurrentMonth && styles.greyDay}`}
-            >
-              <span className={styles.dayNumber}>{cell.day}</span>
-            
-              <div className={styles.eventsContainer}>
-                {eventsByDate[cell.fullDate]?.slice(0, 3).map((event) => (
-                  <div
-                    key={event.id}
-                    className={styles.eventTag}
-                    style={{
-                      backgroundColor: getGroupColor(event.group),
-                      color: "black",
-                    }}
-                  >
-                    {event.title}
-                  </div>
-                ))}
+                key={i}
+                className={`${styles.day} ${!cell.isCurrentMonth && styles.greyDay}`}
+              >
+                <span className={styles.dayNumber}>{cell.day}</span>
 
-                {eventsByDate[cell.fullDate]?.length > 3 && (
-                  <button
-                    className={styles.seeMoreButton}
-                    onClick={() => console.log("See more events for", cell.fullDate)}
-                  >
-                    See More
-                  </button>
-                )}
+                <div className={styles.eventsContainer}>
+                  {eventsByDate[cell.fullDate]?.slice(0, 3).map((event) => (
+                    <div
+                      key={event.id}
+                      className={styles.eventTag}
+                      style={{
+                        backgroundColor: getGroupColor(event.group),
+                        color: "black",
+                      }}
+                    >
+                      {event.title}
+                    </div>
+                  ))}
+
+                  {eventsByDate[cell.fullDate]?.length > 3 && (
+                    <button
+                      className={styles.seeMoreButton}
+                      onClick={() => console.log("See more events for", cell.fullDate)}
+                    >
+                      See More
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-            
+
             ))}
           </div>
         </div>

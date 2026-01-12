@@ -27,6 +27,14 @@ services:
     build: ./backend/event-service
     ports:
       - "4002:4002"
+    depends_on:
+      - authentication-service
+    networks:
+      - apiNetwork
+  authentication-service:
+    build: ./backend/authentication-service
+    ports:
+      - "3001:3001"
     networks:
       - apiNetwork
   mongo:

@@ -1,0 +1,8 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+section {
+  min-height: 80vh;
+}

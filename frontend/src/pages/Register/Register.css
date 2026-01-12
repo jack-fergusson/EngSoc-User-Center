@@ -1,0 +1,208 @@
+.register-container {
+  display: flex;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  margin: 5% 10% 10%;
+}
+
+.register-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 2rem;
+  background: rgb(217, 210, 245);
+  color: rgb(22, 22, 22);
+    position: relative;
+  border-radius: 10% 0 0 10%;
+  box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+}
+.register-form form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centers input + button */
+}
+
+.register-form h1 {
+  margin-bottom: 1rem;
+  font-size: 2.3rem;
+  font-weight: bold;
+}
+
+.register-form p {
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.register-form input {
+  width: 60%;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.register-form input:focus {
+  box-shadow: 0 0 8px rgba(255,255,255,0.6);
+}
+
+.register-form button {
+  width: 35%;
+  padding: 0.8rem 1rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 25px;
+  background-color: #ff6a00;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.register-form button:hover {
+  background-color: #ff8c42;
+  transform: translateY(-2px);
+}
+
+.register-form a {
+  margin-top: 1rem;
+  color: rgb(21, 21, 21);
+  text-decoration: underline;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.register-form a:hover {
+  opacity: 1;
+}
+
+.register-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e3f8;
+  border-radius: 0 10% 10% 0;
+  overflow: hidden;
+}
+
+.register-image img {
+  max-width: 100%;
+  height: 100%;
+  border-radius: 0 10% 10% 0;
+}
+.message {
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  position: relative;
+  font-weight: 500;
+  color: #555;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #ccc;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+/* Google button */
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: #444;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.google-btn:hover {
+  background: #f1f1f1;
+}
+
+.google-btn img.google-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 0.7rem;
+  background: var(--color-dark-purple);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.register-btn:hover {
+  background: #4b0082;
+}
+
+
+@media (max-width: 900px) {
+  .register-container {
+    flex-direction: column;
+    height: auto;
+    margin: 2%;
+    border-radius: 15px;
+  }
+
+  .register-form, .register-image {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .register-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+  }
+}

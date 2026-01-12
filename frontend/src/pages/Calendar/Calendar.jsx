@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { useClubEvents } from "../../contexts/ClubEventsContext";
+import { getAllClubEvents } from "../../data/clubsData";
 import styles from "./Calendar.module.css";
 
 const Calendar = () => {
@@ -38,7 +40,31 @@ const Calendar = () => {
     },
   ];
 
-  const [events, setEvents] = useState(sampleEvents);
+  const { subscribedClubs } = useClubEvents();
+  
+  // Get all club events (from all clubs, not just subscribed)
+  const allClubEvents = useMemo(() => getAllClubEvents(), []);
+  
+  // Merge all events: sample events + all club events
+  const events = useMemo(() => {
+    const eventMap = new Map();
+    
+    // Add sample events
+    sampleEvents.forEach((event) => {
+      const key = `${event.group}-${event.title}-${event.date}`;
+      eventMap.set(key, event);
+    });
+    
+    // Add all club events (these will show on calendar regardless of subscription)
+    allClubEvents.forEach((event) => {
+      const key = `${event.group}-${event.title}-${event.date}`;
+      if (!eventMap.has(key)) {
+        eventMap.set(key, event);
+      }
+    });
+    
+    return Array.from(eventMap.values());
+  }, [allClubEvents]);
   const [groupToggle, setGroupToggle] = useState(false);
   const [categoryToggle, setCategoryToggle] = useState(false);
   const [priceToggle, setPriceToggle] = useState(false);
@@ -165,6 +191,8 @@ const Calendar = () => {
         return "#FFB3C1"; // pink
       case "MathSoc":
         return "#FFF1A8"; // pale gold
+      case "Queen's Space Conference":
+        return "#660099"; // purple
       default:
         return "#E0E0E0"; // neutral grey
     }

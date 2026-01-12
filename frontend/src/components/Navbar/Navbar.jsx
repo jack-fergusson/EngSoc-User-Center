@@ -4,7 +4,7 @@ import api from "../../api";
 import styles from "./Navbar.module.css";
 import EngSocLogo from "../../assets/EngSocLogo.png";
 const BACKEND_URL =
-  import.meta.env.VITE_MYBACKEND_ENV || "http://localhost:4000";
+  import.meta.env.VITE_MYBACKEND_ENV || "http://localhost:3000";
 
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -36,7 +36,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await fetch(`${BACKEND_URL}/authentication/logout`, {
+      await fetch(`${BACKEND_URL}/auth/logout`, {
         method: "POST",
         credentials: "include", // very important for cookies
       });

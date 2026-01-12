@@ -1,4 +1,7 @@
-import app from "./app.js";
+const app = require("./app.js");
 
 const PORT = process.env.PORT || 4001;
-app.listen(PORT, () => console.log(`Auth Service running on ${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`Auth Service running on ${PORT}`);
+});

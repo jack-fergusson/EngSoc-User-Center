@@ -6,6 +6,7 @@ import Calendar from "./pages/Calendar/Calendar";
 import Groups from "./pages/Groups/Groups";
 import About from "./pages/About/About";
 import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/groups" element={<Groups />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
 
       <Footer />

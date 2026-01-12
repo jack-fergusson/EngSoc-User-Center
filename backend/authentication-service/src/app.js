@@ -37,7 +37,8 @@ connectDB();
 passportConfig(passport);
 
 // Routes
-app.use("/authentication", require("./routes"));
+// app.use("/authentication", require("./routes"));
+app.use("/", require("./routes"));
 
 module.exports = app;
 

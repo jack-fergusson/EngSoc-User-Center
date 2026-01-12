@@ -1,0 +1,13 @@
+:root {
+  --font-family-serif: "Newsreader", serif;
+  --font-family-sans: "Lexend", sans-serif;
+  --font-family-body: "Inter", sans-serif;
+
+  --color-gray: #f0f0f0c2;
+  --color-dark-gray: #878787;
+  --color-light-purple: #e6c4ff61;
+  --color-dark-purple: #660099;
+  --border-radius: 8px;
+
+  --text-color: #4e4e4e;
+}

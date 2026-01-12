@@ -8,6 +8,7 @@ import Groups from "./pages/Groups/Groups";
 import About from "./pages/About/About";
 import Login from "./pages/Login/Login";
 import Club from "./pages/Club/Club";
+import Register from "./pages/Register/Register";
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/club/:clubId" element={<Club />} />
         </Routes>
-
+      
         <Footer />
       </BrowserRouter>
     </ClubEventsProvider>

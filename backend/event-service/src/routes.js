@@ -1,4 +1,4 @@
-import express from "express";
+const app = require("./app.js");
 const router = express.Router();
 
 router.post("/create", (req, res) => {

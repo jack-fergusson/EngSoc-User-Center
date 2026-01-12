@@ -189,6 +189,57 @@
   font-size: 11px;
   font-weight: 600;
   overflow-wrap: break-word;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.eventTag:hover {
+  transform: translateY(-1px);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalContent {
+  background: #fff;
+  color: #111;
+  border-radius: 20px;
+  padding: 30px;
+  width: min(95%, 420px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+  text-align: left;
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #555;
+}
+
+.modalLabel {
+  margin-top: 16px;
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: #555;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .eventsContainer {

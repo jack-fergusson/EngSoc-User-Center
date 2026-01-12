@@ -12,7 +12,9 @@ const Calendar = () => {
       date: "2025-11-15",
       category: "Event",
       group: "EngSoc",
+      description: "Learn the basics of web development in this hands-on workshop.",
       price: 0,
+      signupLink: 'https://www.engsoc.utoronto.ca/events/engweek-kickoff',
     },
     {
       id: 2,
@@ -20,7 +22,9 @@ const Calendar = () => {
       date: "2025-11-15",
       category: "Workshop",
       group: "CS Club",
+      description: "Learn the basics of web development in this hands-on workshop.",
       price: 20,
+      signupLink: 'https://www.engsoc.utoronto.ca/events/engweek-kickoff',
     },
     {
       id: 3,
@@ -28,7 +32,9 @@ const Calendar = () => {
       date: "2025-11-15",
       category: "Social",
       group: "AMS",
+      description: "Learn the basics of web development in this hands-on workshop.",
       price: 5,
+      signupLink: 'https://www.engsoc.utoronto.ca/events/engweek-kickoff',
     },
     {
       id: 4,
@@ -36,7 +42,9 @@ const Calendar = () => {
       date: "2025-11-16",
       category: "Event",
       group: "MathSoc",
+      description: "Learn the basics of web development in this hands-on workshop.",
       price: 0,
+      signupLink: 'https://www.engsoc.utoronto.ca/events/engweek-kickoff',
     },
   ];
 
@@ -73,6 +81,8 @@ const Calendar = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [activeEvent, setActiveEvent] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
 
   // === FILTER EVENTS ===
@@ -196,6 +206,24 @@ const Calendar = () => {
       default:
         return "#E0E0E0"; // neutral grey
     }
+  };
+  const handleEventClick = (event) => {
+    setActiveEvent(event);
+    setIsModalOpen(true);
+  };
+
+  const closeEventModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
   };
   return (
     <div className={styles.page}>
@@ -347,6 +375,8 @@ const Calendar = () => {
                         backgroundColor: getGroupColor(event.group),
                         color: "black",
                       }}
+                      onClick={() => handleEventClick(event)}
+                      role="button"
                     >
                       {event.title}
                     </div>
@@ -362,10 +392,51 @@ const Calendar = () => {
                   )}
                 </div>
               </div>
-
             ))}
           </div>
         </div>
+        {isModalOpen && activeEvent && (
+          <div className={styles.modalOverlay} onClick={closeEventModal}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                className={styles.modalCloseBtn}
+                onClick={closeEventModal}
+              >
+                ×
+              </button>
+              <h3>{activeEvent.title}</h3>
+              <p className={styles.modalLabel}>Date</p>
+              <p>{formatDate(activeEvent.date)}</p>
+              <p className={styles.modalLabel}>Group</p>
+              <p>{activeEvent.group}</p>
+              <p className={styles.modalLabel}>Category</p>
+              <p>{activeEvent.category}</p>
+              <p className={styles.modalLabel}>Price</p>
+              <p>{activeEvent.price ? `$${activeEvent.price}` : "Free"}</p>
+              {activeEvent.description && (
+                <>
+                  <p className={styles.modalLabel}>Description</p>
+                  <p>{activeEvent.description}</p>
+                </>
+              )}
+              {activeEvent.signupLink && (
+                <>
+                  <p className={styles.modalLabel}>Signup Link</p>
+                  <a
+                    href={activeEvent.signupLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.signupLink}
+                  >
+                    {activeEvent.signupLink}
+                  </a>
+                </>
+              )}
+
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

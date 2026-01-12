@@ -3,13 +3,31 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.use(
   "/authentication",
   createProxyMiddleware({
     target: "http://authentication-service:3001",
     changeOrigin: true,
+    on: {
+      proxyRes: (proxyRes, req, res) => {
+        // Set the Access-Control-Allow-Origin header on the proxy response
+        // to the origin of the client's request to allow specific origins
+
+        // const clientOrigin = req.headers.origin;
+        const clientOrigin = "http://localhost:3000";
+        if (clientOrigin) {
+          res.header("Access-Control-Allow-Origin", clientOrigin);
+        }
+        res.header("Access-Control-Allow-Credentials", "true"); // Optional: for handling credentials
+      },
+    },
   })
 );
 

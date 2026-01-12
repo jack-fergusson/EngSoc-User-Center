@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "axios": "^1.13.2",
+    "babel": "^5.8.38",
+    "jest": "^30.2.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:system": "jest --testPathPatterns=/tests/system"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "babel-jest": "^30.2.0"
+  }
+}

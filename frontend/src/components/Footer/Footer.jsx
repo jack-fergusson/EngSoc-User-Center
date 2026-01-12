@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./Footer.module.css";
 
 import EngSocLogo from "../../assets/EngSocLogo.png";
@@ -28,8 +29,8 @@ const Footer = () => {
         <div className={styles.links}>
           <p>Quick Links</p>
           <div>
-            <a href="">Home</a>
-            <a href="">About</a>
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
             <a href="">Help</a>
           </div>
         </div>

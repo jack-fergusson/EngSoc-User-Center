@@ -24,6 +24,15 @@ export default function Navbar() {
         <li>
           <NavLink to="/groups">Groups</NavLink>
         </li>
+
+
+        <li>
+          <NavLink to="/fqa">FQA</NavLink>
+        </li>
+      
+
+        <li></li>
+
         <li>
           <NavLink to="/login">
             <button className={styles.login}>Login</button>

@@ -1,8 +1,11 @@
-import request from "supertest";
-import app from "../src/app"; // wherever your Express app is exported
+const request = require("supertest");
+const app = require("../src/app"); // adjust path if needed
 
 describe("GET /ping", () => {
   it("returns pong", () => {
-    return request(app).get("/ping").expect(200).expect("pong");
+    return request(app)
+      .get("/ping")
+      .expect(200)
+      .expect("pong");
   });
 });

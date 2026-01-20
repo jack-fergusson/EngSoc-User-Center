@@ -88,6 +88,7 @@ const Home = () => {
           © 2025 Queen’s University Engineering Society
         </p>
       </footer>
+    </div>
   );
 };
 // import { useEffect, useState } from "react";

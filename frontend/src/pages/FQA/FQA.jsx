@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import styles from "./fqa.module.css";
+import styles from "./FQA.module.css";
 
 function FaqSection({ title, description, items, openIndex, onToggle }) {
   return (

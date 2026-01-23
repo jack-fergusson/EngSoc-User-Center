@@ -73,6 +73,14 @@ export default function Navbar() {
           <NavLink to="/groups">Groups</NavLink>
         </li>
 
+
+        <li>
+          <NavLink to="/fqa">FQA</NavLink>
+        </li>
+      
+
+        <li></li>
+
         {/* LOGIN / LOGOUT TOGGLE */}
         <li>
           {loggedIn ? (

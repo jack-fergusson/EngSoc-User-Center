@@ -3,7 +3,7 @@
   min-height: 100vh;
   background: #f9f9ff;
   font-family: "Inter", sans-serif;
-  padding: 40px;
+  padding-top: 20px;
 }
 
 .container {
@@ -11,6 +11,8 @@
   gap: 40px;
   max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Sidebar Card */
@@ -80,6 +82,8 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
+  min-width: 0; /* Prevent flex item from overflowing */
+  overflow: visible;
 }
 
 .headerSection {
@@ -106,6 +110,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  padding: 20px;
 }
 
 .subscribeButton:hover {
@@ -113,11 +118,12 @@
 }
 
 /* Custom Content Section */
-.customContentSection {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+  .customContentSection {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
 
 .sectionTitle {
   font-size: 24px;
@@ -166,6 +172,8 @@
   border-radius: 12px;
   padding: 20px;
   align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .eventDateBox {
@@ -192,9 +200,12 @@
   font-weight: bold;
 }
 
-.eventContent {
-  flex: 1;
-}
+  .eventContent {
+    flex: 1;
+    min-width: 0; /* Prevent text overflow */
+    overflow-wrap: break-word; /* Allow long words to break */
+    word-wrap: break-word;
+  }
 
 .eventTitle {
   font-size: 18px;
@@ -208,5 +219,375 @@
   line-height: 1.6;
   color: #666;
   margin: 0;
+}
+
+/* Mobile Styles (up to 768px) */
+@media (max-width: 768px) {
+  .page {
+    padding-top: 10px;
+    padding-bottom: 20px;
+     min-height: auto;/* Allow content to determine height */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+
+  .container {
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 1rem;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+    order: 1; /* Show club card first on mobile */
+    flex-shrink: 1; /* Allow sidebar to shrink if needed */
+  }
+
+  .clubCard {
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding is included in width */
+    overflow: visible; /* Ensure all content is visible */
+  }
+
+  .clubImageContainer {
+    margin-bottom: 15px;
+  }
+
+  .clubImage {
+    width: 180px;
+    height: 180px;
+  }
+
+  .clubName {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .clubDescription {
+    font-size: 13px;
+    margin-bottom: 20px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+
+  .contactSection {
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+
+  .contactHeading {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .contactInfo {
+    font-size: 13px;
+    margin-bottom: 6px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+
+  .mainContent {
+    order: 2; /* Show main content after club card on mobile */
+    gap: 30px;
+    width: 100%;
+    overflow: visible; /* Ensure all content is visible */
+  }
+
+  .headerSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  .mainTitle {
+    font-size: 24px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+
+  .subscribeButton {
+    width: 100%;
+    padding: 14px 24px;
+    font-size: 15px;
+    box-sizing: border-box;
+  }
+
+  .sectionTitle {
+    font-size: 20px;
+  }
+
+  .sectionSubtitle {
+    font-size: 14px;
+  }
+
+  .customContentBox {
+    padding: 18px;
+    min-height: 120px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+
+  .customContentText {
+    font-size: 13px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+
+  .eventsSection {
+    gap: 15px;
+    width: 100%;
+    overflow: visible;
+  }
+
+  .eventsList {
+    gap: 12px;
+    width: 100%;
+    overflow: visible;
+  }
+
+  .eventCard {
+    flex-direction: column;
+    gap: 15px;
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding is included in width */
+  }
+
+  .eventDateBox {
+    width: 70px;
+    height: 70px;
+    align-self: flex-start;
+  }
+
+  .eventMonth {
+    font-size: 12px;
+  }
+
+  .eventDay {
+    font-size: 24px;
+  }
+
+  .eventTitle {
+    font-size: 16px;
+    margin-bottom: 6px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+
+  .eventDescription {
+    font-size: 13px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+}
+
+/* Tablet Styles (769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    gap: 30px;
+    padding: 0 2rem;
+    max-width: 100%;
+  }
+
+  .sidebar {
+    width: 300px;
+  }
+
+  .clubCard {
+    padding: 25px;
+  }
+
+  .clubImage {
+    width: 220px;
+    height: 220px;
+  }
+
+  .clubName {
+    font-size: 22px;
+  }
+
+  .clubDescription {
+    font-size: 13.5px;
+  }
+
+  .mainContent {
+    gap: 35px;
+  }
+
+  .headerSection {
+    margin-bottom: 18px;
+  }
+
+  .mainTitle {
+    font-size: 30px;
+  }
+
+  .subscribeButton {
+    padding: 16px 28px;
+    font-size: 15px;
+  }
+
+  .sectionTitle {
+    font-size: 22px;
+  }
+
+  .sectionSubtitle {
+    font-size: 15px;
+  }
+
+  .customContentBox {
+    padding: 20px;
+    min-height: 140px;
+  }
+
+  .customContentText {
+    font-size: 13.5px;
+  }
+
+  .eventsSection {
+    gap: 18px;
+  }
+
+  .eventsList {
+    gap: 14px;
+  }
+
+  .eventCard {
+    gap: 18px;
+    padding: 18px;
+  }
+
+  .eventDateBox {
+    width: 75px;
+    height: 75px;
+  }
+
+  .eventMonth {
+    font-size: 13px;
+  }
+
+  .eventDay {
+    font-size: 26px;
+  }
+
+  .eventTitle {
+    font-size: 17px;
+  }
+
+  .eventDescription {
+    font-size: 13.5px;
+  }
+}
+
+/* Large Desktop Styles (1025px and above) */
+@media (min-width: 1025px) {
+  .container {
+    gap: 40px;
+    padding: 0 40px;
+    max-width: 1400px;
+  }
+
+  .sidebar {
+    width: 350px;
+  }
+
+  .clubCard {
+    padding: 30px;
+  }
+
+  .clubImage {
+    width: 250px;
+    height: 250px;
+  }
+
+  .clubName {
+    font-size: 24px;
+  }
+
+  .clubDescription {
+    font-size: 14px;
+  }
+
+  .mainContent {
+    gap: 40px;
+  }
+
+  .headerSection {
+    margin-bottom: 20px;
+  }
+
+  .mainTitle {
+    font-size: 36px;
+  }
+
+  .subscribeButton {
+    padding: 12px 32px;
+    font-size: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 24px;
+  }
+
+  .sectionSubtitle {
+    font-size: 16px;
+  }
+
+  .customContentBox {
+    padding: 24px;
+    min-height: 150px;
+  }
+
+  .customContentText {
+    font-size: 14px;
+  }
+
+  .eventsSection {
+    gap: 20px;
+  }
+
+  .eventsList {
+    gap: 16px;
+  }
+
+  .eventCard {
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .eventDateBox {
+    width: 80px;
+    height: 80px;
+  }
+
+  .eventMonth {
+    font-size: 14px;
+  }
+
+  .eventDay {
+    font-size: 28px;
+  }
+
+  .eventTitle {
+    font-size: 18px;
+  }
+
+  .eventDescription {
+    font-size: 14px;
+  }
 }
 

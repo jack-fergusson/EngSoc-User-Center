@@ -9,6 +9,7 @@ const BACKEND_URL =
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // check login status ONCE when navbar loads
   useEffect(() => {
@@ -34,6 +35,31 @@ export default function Navbar() {
     };
   }, []);
 
+  // Close menu when clicking outside or on window resize to desktop
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMenuOpen && !event.target.closest(`.${styles.links}`) && !event.target.closest(`.${styles.hamburger}`)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth > 768 && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      window.addEventListener('resize', handleResize);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isMenuOpen, styles.links, styles.hamburger]);
+
   const handleLogout = async () => {
     try {
       await fetch(`${BACKEND_URL}/authentication/logout`, {
@@ -48,52 +74,78 @@ export default function Navbar() {
     }
   };
 
-  return (
-    <nav className={styles.navbar}>
-      <div className={styles.logo}>
-        <img src={EngSocLogo} alt="EngSoc Logo" />
-        <h2>
-          <Link to="/">EngSoc Student Center</Link>
-        </h2>
-      </div>
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-      <ul className={styles.links}>
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  return (
+    <>
+      {/* Backdrop overlay for mobile menu */}
+      {isMenuOpen && (
+        <div 
+          className={styles.backdrop} 
+          onClick={closeMenu}
+          aria-hidden="true"
+        />
+      )}
+      
+      <nav className={styles.navbar}>
+        <div className={styles.logo}>
+          <img src={EngSocLogo} alt="EngSoc Logo" />
+          <h2>
+            <Link to="/" onClick={closeMenu}>EngSoc Student Center</Link>
+          </h2>
+        </div>
+
+        {/* Hamburger Menu Button - Mobile Only */}
+        <button 
+          className={styles.hamburger} 
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
+          <span className={isMenuOpen ? styles.active : ''}></span>
+          <span className={isMenuOpen ? styles.active : ''}></span>
+          <span className={isMenuOpen ? styles.active : ''}></span>
+        </button>
+
+        {/* Navigation Links */}
+        <ul className={`${styles.links} ${isMenuOpen ? styles.menuOpen : ''}`}>
         <li>
-          <NavLink to="/" end>
+          <NavLink to="/" end onClick={closeMenu}>
             Home
           </NavLink>
         </li>
         <li>
-          <NavLink to="/about">About</NavLink>
+          <NavLink to="/about" onClick={closeMenu}>About</NavLink>
         </li>
         <li>
-          <NavLink to="/calendar">Calendar</NavLink>
+          <NavLink to="/calendar" onClick={closeMenu}>Calendar</NavLink>
         </li>
         <li>
-          <NavLink to="/groups">Groups</NavLink>
+          <NavLink to="/groups" onClick={closeMenu}>Groups</NavLink>
         </li>
-
-
         <li>
-          <NavLink to="/fqa">FQA</NavLink>
+          <NavLink to="/fqa" onClick={closeMenu}>FQA</NavLink>
         </li>
-      
-
-        <li></li>
 
         {/* LOGIN / LOGOUT TOGGLE */}
         <li>
           {loggedIn ? (
-            <button className={styles.login} onClick={handleLogout}>
+            <button className={styles.login} onClick={() => { closeMenu(); handleLogout(); }}>
               Logout
             </button>
           ) : (
-            <NavLink to="/login">
+            <NavLink to="/login" onClick={closeMenu}>
               <button className={styles.login}>Login</button>
             </NavLink>
           )}
         </li>
       </ul>
     </nav>
+    </>
   );
 }

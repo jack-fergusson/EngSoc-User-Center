@@ -3,6 +3,7 @@
   height: 100vh; 
      font-family: 'Roboto', sans-serif;
     margin: 5% 10% 10%;
+    overflow: hidden;
     
 }
 .login-form {
@@ -11,13 +12,14 @@
   flex-direction: column;      /* stack inputs vertically */
   justify-content: center;     /* vertically center form */
   align-items: center;         /* horizontally center form content */
-  padding: 3rem 2rem;
+  padding-top: 2rem;
   background-color:#ddd;  /* optional background */
   border-radius: 10% 0 0 10%;   /* rounded corners on left side */
    box-shadow: 5px 0 15px rgba(0,0,0,0.1);
   position: relative;
   background: rgb(217, 210, 245);
   color: rgb(22, 22, 22);
+  overflow: hidden;
 }
 
 /* Form heading */

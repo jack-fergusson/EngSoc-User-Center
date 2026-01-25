@@ -81,13 +81,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className={styles.footer}>
-        <p>
-          EngSoc Student Centre – Developed by ESSDev<br />
-          © 2025 Queen’s University Engineering Society
-        </p>
-      </footer>
+      
     </div>
   );
 };

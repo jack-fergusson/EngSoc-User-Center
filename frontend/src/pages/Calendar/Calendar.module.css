@@ -368,10 +368,10 @@
   }
   .sidebar {
     position: absolute;
-    top: 0;
+    top: 73.36px;
     left: 0;
     width: 240px;
-    height: 100vh;
+    height: calc(100vh - 73.36px);
     background: white;
     padding: 20px;
     border-right: 1px solid #ddd;

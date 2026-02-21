@@ -25,6 +25,7 @@ function App() {
           <Route path="/groups" element={<Groups />} />
           <Route path="/fqa" element={<FQA />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/club/:clubId" element={<Club />} />
         </Routes>
       

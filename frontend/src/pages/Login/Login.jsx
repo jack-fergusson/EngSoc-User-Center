@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../../api"; // axios instance
 import "./Login.css";
 import loginPic from "/images/loginpage.png";
@@ -82,6 +83,12 @@ const Login = () => {
           <img src={googlePic} alt="Google Logo" className="google-icon" />
           <span>Sign in with Google</span>
         </a>
+
+        {/* NetID Sign-In */}
+        <Link to="/login/netid" className="netid-btn">
+          <span className="netid-btn-icon">ID</span>
+          <span>Login with NetID</span>
+        </Link>
 
         <p className="login-link">
           Don't have an account? <a href="/register">Register here</a>

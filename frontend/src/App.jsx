@@ -7,6 +7,7 @@ import Calendar from "./pages/Calendar/Calendar";
 import Groups from "./pages/Groups/Groups";
 import About from "./pages/About/About";
 import Login from "./pages/Login/Login";
+import NetIDLogin from "./pages/NetIDLogin/NetIDLogin";
 import FQA from "./pages/FQA/FQA";
 
 import Club from "./pages/Club/Club";
@@ -25,6 +26,8 @@ function App() {
           <Route path="/groups" element={<Groups />} />
           <Route path="/fqa" element={<FQA />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/login/netid" element={<NetIDLogin />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/club/:clubId" element={<Club />} />
           <Route path="/register" element={<Register />} />
         </Routes>

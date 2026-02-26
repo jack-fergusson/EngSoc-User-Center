@@ -4,8 +4,7 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true},
   email:    { type: String, required: true, unique: true },
-  googleId: { type: String }, // for Google OAuth users
-  netId:    { type: String, sparse: true, unique: true }, // university NetID; sparse so existing users need not have it
+  googleId: { type: String }, // <--  for Google OAuth users
 });
 
 // This automatically adds hashing + salting + methods like register(), authenticate()
@@ -15,3 +14,4 @@ userSchema.plugin(passportLocalMongoose, {
 });
 
 module.exports = mongoose.model('User', userSchema);
+

@@ -17,7 +17,7 @@ function App() {
     <ClubEventsProvider>
       <BrowserRouter>
         <Navbar />
-    
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -26,8 +26,9 @@ function App() {
           <Route path="/fqa" element={<FQA />} />
           <Route path="/login" element={<Login />} />
           <Route path="/club/:clubId" element={<Club />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
-      
+
         <Footer />
       </BrowserRouter>
     </ClubEventsProvider>

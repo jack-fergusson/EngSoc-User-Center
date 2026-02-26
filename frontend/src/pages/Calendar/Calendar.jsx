@@ -48,7 +48,9 @@ const Calendar = () => {
     },
   ];
 
-  const { subscribedClubs } = useClubEvents();
+  const { getAllSubscribedEvents } = useClubEvents();
+  
+  const subscribedEvents = useMemo(() => getAllSubscribedEvents(), [getAllSubscribedEvents]);
   
   // Get all club events (from all clubs, not just subscribed)
   const allClubEvents = useMemo(() => getAllClubEvents(), []);
@@ -70,9 +72,15 @@ const Calendar = () => {
         eventMap.set(key, event);
       }
     });
+    subscribedEvents.forEach((event) => {
+      const key = `${event.group}-${event.title}-${event.date}`;
+      if (!eventMap.has(key)) {
+        eventMap.set(key, event);
+      }
+    });
     
     return Array.from(eventMap.values());
-  }, [allClubEvents]);
+  }, [allClubEvents, subscribedEvents]);
   const [groupToggle, setGroupToggle] = useState(false);
   const [categoryToggle, setCategoryToggle] = useState(false);
   const [priceToggle, setPriceToggle] = useState(false);

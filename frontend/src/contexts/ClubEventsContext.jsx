@@ -15,12 +15,7 @@ export const ClubEventsProvider = ({ children }) => {
   const [clubEvents, setClubEvents] = useState({});
 
   const subscribeToClub = useCallback((clubId, clubName, events) => {
-    setSubscribedClubs((prev) => {
-      if (!prev.includes(clubId)) {
-        return [...prev, clubId];
-      }
-      return prev;
-    });
+    setSubscribedClubs((prev) => (prev.includes(clubId) ? prev : [...prev, clubId]));
     setClubEvents((prev) => {
       if (!prev[clubId]) {
         return {
@@ -57,6 +52,47 @@ export const ClubEventsProvider = ({ children }) => {
     return allEvents;
   }, [clubEvents]);
 
+  const setClubEventsForClub = useCallback((clubId, clubName, events = [], details = {}) => {
+    setSubscribedClubs((prev) => (prev.includes(clubId) ? prev : [...prev, clubId]));
+    setClubEvents((prev) => ({
+      ...prev,
+      [clubId]: {
+        clubName,
+        events: events.map((event) => ({ ...event })),
+        details,
+      },
+    }));
+  }, []);
+
+  const addEventToClub = useCallback((clubId, clubName, event) => {
+    setSubscribedClubs((prev) => (prev.includes(clubId) ? prev : [...prev, clubId]));
+    setClubEvents((prev) => {
+      const existing = prev[clubId] || { clubName, events: [], details: {} };
+      return {
+        ...prev,
+        [clubId]: {
+          clubName: clubName || existing.clubName,
+          events: [...existing.events, { ...event }],
+          details: existing.details,
+        },
+      };
+    });
+  }, []);
+
+  const updateClubDetails = useCallback((clubId, details) => {
+    setClubEvents((prev) => {
+      const existing = prev[clubId] || { clubName: details.name || "My Club", events: [], details: {} };
+      return {
+        ...prev,
+        [clubId]: {
+          ...existing,
+          clubName: details.name || existing.clubName,
+          details,
+        },
+      };
+    });
+  }, []);
+
   const isSubscribed = useCallback(
     (clubId) => {
       return subscribedClubs.includes(clubId);
@@ -72,6 +108,9 @@ export const ClubEventsProvider = ({ children }) => {
         subscribeToClub,
         unsubscribeFromClub,
         getAllSubscribedEvents,
+        setClubEventsForClub,
+        addEventToClub,
+        updateClubDetails,
         isSubscribed,
       }}
     >
@@ -79,4 +118,3 @@ export const ClubEventsProvider = ({ children }) => {
     </ClubEventsContext.Provider>
   );
 };
-

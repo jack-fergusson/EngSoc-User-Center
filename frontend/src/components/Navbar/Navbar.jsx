@@ -131,6 +131,9 @@ export default function Navbar() {
         <li>
           <NavLink to="/fqa" onClick={closeMenu}>FQA</NavLink>
         </li>
+        <li>
+          <NavLink to="/my-club" onClick={closeMenu}>My Club</NavLink>
+        </li>
 
         {/* LOGIN / LOGOUT TOGGLE */}
         <li>

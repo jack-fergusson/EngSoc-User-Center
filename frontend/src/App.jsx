@@ -11,6 +11,7 @@ import FQA from "./pages/FQA/FQA";
 
 import Club from "./pages/Club/Club";
 import Register from "./pages/Register/Register";
+import MyClub from "./pages/MyClub/MyClub";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/fqa" element={<FQA />} />
           <Route path="/login" element={<Login />} />
           <Route path="/club/:clubId" element={<Club />} />
+          <Route path="/my-club" element={<MyClub />} />
         </Routes>
       
         <Footer />

@@ -8,10 +8,288 @@
 
 .pageTitle {
   padding-top: 30px;
-  margin: 0 30px 40px 40px;
+  margin: 0;
   height: fit-content;
   width: fit-content;
   border-bottom: 2px solid #333;
+}
+
+.headerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 30px 40px 0;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.headerRow .pageTitle {
+  padding-top: 0;
+  margin-bottom: 20px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filterSelect {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #d6d6d6;
+  background: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.addButton {
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-dark-purple, #660099);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.addButton:hover {
+  background: #550088;
+}
+
+/* Modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.modalTitle {
+  margin: 0 0 20px 0;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modalForm label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #524d4d;
+}
+
+.modalForm input,
+.modalForm textarea {
+  border-radius: 10px;
+  border: 1px solid #d6d6d6;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.modalForm .fullWidth {
+  grid-column: 1 / -1;
+}
+
+/* Profile picture drop zone */
+.dropZone {
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: #fafafa;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.dropZone:hover,
+.dropZoneActive {
+  border-color: var(--color-dark-purple, #660099);
+  background: #f5f0fa;
+}
+
+.dropZoneInput {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dropZoneLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 20px;
+  cursor: pointer;
+  width: 100%;
+  min-height: 140px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.dropZoneIcon {
+  font-size: 2rem;
+}
+
+.dropZoneHint {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.dropZonePreview {
+  position: relative;
+  width: 100%;
+  min-height: 140px;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.dropZonePreview img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+.dropZoneOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.dropZonePreview:hover .dropZoneOverlay {
+  opacity: 1;
+}
+
+.dropZoneRemove {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: transparent;
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.dropZoneRemove:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.contactEmailRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.contactEmailRow input {
+  flex: 1;
+}
+
+.removeEmailButton {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.removeEmailButton:hover {
+  background: #f5f5f5;
+}
+
+.addEmailButton {
+  margin-top: 4px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px dashed #999;
+  background: #fafafa;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #660099;
+}
+
+.addEmailButton:hover {
+  background: #f5f0fa;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.cancelButton {
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  color: #555;
+}
+
+.createButton {
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-dark-purple, #660099);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.createButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .clubsContainer {

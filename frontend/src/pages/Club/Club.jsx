@@ -7,10 +7,30 @@ import qscLogo from "../../assets/qsc_logo.png";
 
 const Club = () => {
   const { clubId } = useParams();
-  const { subscribeToClub, unsubscribeFromClub, isSubscribed } = useClubEvents();
+  const { subscribeToClub, unsubscribeFromClub, isSubscribed, getCreatedClubById, clubEvents } = useClubEvents();
 
-  // Get club data from centralized data source
-  const clubData = clubsData[clubId] || clubsData.qsc; // Fallback to qsc if club not found
+  const createdClub = getCreatedClubById(clubId);
+  const contextDetails = clubEvents[clubId]?.details;
+  const clubData = createdClub
+    ? {
+        id: createdClub.id,
+        name: contextDetails?.name ?? createdClub.name,
+        description: contextDetails?.description ?? createdClub.description,
+        contact: {
+          email: contextDetails?.contact?.email ?? createdClub.contact?.email ?? "",
+          phone: contextDetails?.contact?.phone ?? createdClub.contact?.phone ?? "",
+          address: contextDetails?.contact?.address ?? createdClub.contact?.address ?? "",
+        },
+        contactEmails: contextDetails?.contactEmails ?? createdClub.contactEmails ?? [],
+        customContent: contextDetails?.customContent ?? createdClub.customContent ?? "",
+        upcomingEvents: (clubEvents[clubId]?.events?.length ? clubEvents[clubId].events : createdClub.upcomingEvents || []).map((e) => ({
+          ...e,
+          month: e.month || (e.date ? new Date(e.date).toLocaleString("default", { month: "short" }).toUpperCase() : "TBD"),
+          day: e.day || (e.date ? String(new Date(e.date).getDate()).padStart(2, "0") : "--"),
+        })),
+        profileImageUrl: createdClub.profileImageUrl,
+      }
+    : clubsData[clubId] || clubsData.qsc;
 
   const isCurrentlySubscribed = isSubscribed(clubData.id);
 
@@ -33,17 +53,46 @@ const Club = () => {
         <aside className={styles.sidebar}>
           <div className={styles.clubCard}>
             <div className={styles.clubImageContainer}>
-              <img 
-                src={qscLogo} 
-                alt="Queen's Space Conference Logo" 
-                className={styles.clubImage}
-              />
+              {clubData.profileImageUrl ? (
+                <img
+                  src={clubData.profileImageUrl}
+                  alt={`${clubData.name} Logo`}
+                  className={styles.clubImage}
+                />
+              ) : clubId === "qsc" ? (
+                <img
+                  src={qscLogo}
+                  alt="Queen's Space Conference Logo"
+                  className={styles.clubImage}
+                />
+              ) : (
+                <div
+                  className={styles.clubImage}
+                  style={{
+                    background: "linear-gradient(135deg, #7d63e0, #b28cff)",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <span className={styles.clubInitials}>
+                    {(clubData.name || "C").slice(0, 2).toUpperCase()}
+                  </span>
+                </div>
+              )}
             </div>
             <h2 className={styles.clubName}>{clubData.name}</h2>
             <p className={styles.clubDescription}>{clubData.description}</p>
             <div className={styles.contactSection}>
               <h3 className={styles.contactHeading}>Contact</h3>
-              <p className={styles.contactInfo}>{clubData.contact.email}</p>
+              {(clubData.contactEmails && clubData.contactEmails.length > 0) ? (
+                clubData.contactEmails.map((em, i) => (
+                  <p key={i} className={styles.contactInfo}>{em}</p>
+                ))
+              ) : (
+                <p className={styles.contactInfo}>{clubData.contact.email}</p>
+              )}
               <p className={styles.contactInfo}>{clubData.contact.phone}</p>
               <p className={styles.contactInfo}>{clubData.contact.address}</p>
             </div>
@@ -79,7 +128,7 @@ const Club = () => {
           <section className={styles.eventsSection}>
             <h2 className={styles.sectionTitle}>Upcoming Events</h2>
             <div className={styles.eventsList}>
-              {clubData.upcomingEvents.map((event, index) => (
+              {(clubData.upcomingEvents || []).map((event, index) => (
                 <div key={event.id} className={styles.eventCard}>
                   <div
                     className={styles.eventDateBox}

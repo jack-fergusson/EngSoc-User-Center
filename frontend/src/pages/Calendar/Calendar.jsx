@@ -81,6 +81,16 @@ const Calendar = () => {
     
     return Array.from(eventMap.values());
   }, [allClubEvents, subscribedEvents]);
+  const uniqueGroups = useMemo(() => {
+    const names = events.map((e) => e.group).filter(Boolean);
+    return [...new Set(names)].sort();
+  }, [events]);
+
+  const uniqueCategories = useMemo(() => {
+    const cats = events.map((e) => e.category).filter(Boolean);
+    return [...new Set(cats)].sort();
+  }, [events]);
+
   const [groupToggle, setGroupToggle] = useState(false);
   const [categoryToggle, setCategoryToggle] = useState(false);
   const [priceToggle, setPriceToggle] = useState(false);
@@ -265,7 +275,7 @@ const Calendar = () => {
               Groups {groupToggle ? <span>▼</span> : <span>▶</span>}
             </li>
             {groupToggle &&
-              ["EngSoc", "CS Club", "AMS", "SciFormal", "MathSoc"].map((group) => (
+              uniqueGroups.map((group) => (
                 <ul key={group} className={styles.sublist}>
                   <li>
                     <label htmlFor={group}>{group}</label>
@@ -285,7 +295,7 @@ const Calendar = () => {
               Categories {categoryToggle ? <span>▼</span> : <span>▶</span>}
             </li>
             {categoryToggle &&
-              ["Workshop", "Event", "Social"].map((category) => (
+              uniqueCategories.map((category) => (
                 <ul key={category} className={styles.sublist}>
                   <li>
                     <label htmlFor={category}>{category}</label>

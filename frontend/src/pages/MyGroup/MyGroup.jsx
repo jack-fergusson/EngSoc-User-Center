@@ -30,6 +30,8 @@ const MyGroup = () => {
   const [selectedGroupId, setSelectedGroupId] = useState(null);
   const [statusMessage, setStatusMessage] = useState("");
   const [savingDetails, setSavingDetails] = useState(false);
+  const [detailsSaved, setDetailsSaved] = useState(false);
+  const [eventSaved, setEventSaved] = useState(false);
   const [newEvent, setNewEvent] = useState({
     title: "",
     date: "",
@@ -174,7 +176,11 @@ const MyGroup = () => {
     });
     setStatusMessage("Group details updated.");
     setSavingDetails(false);
-    window.setTimeout(() => setStatusMessage(""), 3000);
+    setDetailsSaved(true);
+    window.setTimeout(() => {
+      setStatusMessage("");
+      setDetailsSaved(false);
+    }, 2000);
   };
 
   const handleAddEvent = () => {
@@ -199,7 +205,11 @@ const MyGroup = () => {
     addEventToClub(selectedGroupId, detailsForm.name, eventToAdd);
     setNewEvent({ title: "", date: "", category: "Event", description: "", price: "", signupLink: "" });
     setStatusMessage("Event added to your calendar.");
-    window.setTimeout(() => setStatusMessage(""), 3000);
+    setEventSaved(true);
+    window.setTimeout(() => {
+      setStatusMessage("");
+      setEventSaved(false);
+    }, 2000);
   };
 
   // ── List view ─────────────────────────────────────────────────────────────
@@ -273,27 +283,6 @@ const MyGroup = () => {
               : "Log in to personalize your group."}
           </p>
           <div className={styles.status}>{statusMessage}</div>
-        </div>
-        <div className={styles.previewCard}>
-          <div className={styles.imageFrame}>
-            {selectedGroup?.profileImageUrl ? (
-              <img src={selectedGroup.profileImageUrl} alt="Group logo" />
-            ) : (
-              <img src={qscLogo} alt="Group logo" />
-            )}
-          </div>
-          <div>
-            <h3 className={styles.previewTitle}>Contact</h3>
-            {detailsForm.contactEmails?.length > 0 ? (
-              detailsForm.contactEmails.filter(Boolean).map((em, i) => (
-                <p key={i}>{em}</p>
-              ))
-            ) : (
-              <p>{detailsForm.contactEmail || "—"}</p>
-            )}
-            <p>{detailsForm.contactPhone}</p>
-            <p>{detailsForm.contactAddress}</p>
-          </div>
         </div>
       </header>
 
@@ -369,11 +358,11 @@ const MyGroup = () => {
           </label>
         </div>
         <button
-          className={styles.primaryButton}
+          className={`${styles.primaryButton} ${detailsSaved ? styles.savedButton : ""}`}
           onClick={handleSaveDetails}
-          disabled={savingDetails}
+          disabled={savingDetails || detailsSaved}
         >
-          Save group details
+          {detailsSaved ? "✓ Saved!" : "Save group details"}
         </button>
       </section>
 
@@ -460,8 +449,12 @@ const MyGroup = () => {
               />
             </label>
           </div>
-          <button className={styles.secondaryButton} onClick={handleAddEvent}>
-            Add event to calendar
+          <button
+            className={`${styles.secondaryButton} ${eventSaved ? styles.savedButton : ""}`}
+            onClick={handleAddEvent}
+            disabled={eventSaved}
+          >
+            {eventSaved ? "✓ Added!" : "Add event to calendar"}
           </button>
         </div>
       </section>

@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import api from "../../api";
 import { useClubEvents } from "../../contexts/ClubEventsContext";
-import { clubsData } from "../../data/clubsData";
 import styles from "./MyGroup.module.css";
 import qscLogo from "../../assets/qsc_logo.png";
 
@@ -25,15 +24,10 @@ const MyGroup = () => {
     getClubsManageableByUser,
     getCreatedClubById,
     updateCreatedClub,
+    deleteClub,
   } = useClubEvents();
   const [user, setUser] = useState(null);
-  const manageableClubs = getClubsManageableByUser(user?.email);
-  const clubsFromData = Object.keys(clubsData).map((id) => ({ id, ...clubsData[id] }));
-  const availableClubs = [...manageableClubs, ...clubsFromData];
-  const defaultClubId = availableClubs[0]?.id;
-  const [selectedClubId, setSelectedClubId] = useState(() => {
-    return localStorage.getItem("userClubId") || defaultClubId || "";
-  });
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
   const [statusMessage, setStatusMessage] = useState("");
   const [savingDetails, setSavingDetails] = useState(false);
   const [newEvent, setNewEvent] = useState({
@@ -44,16 +38,6 @@ const MyGroup = () => {
     price: "",
     signupLink: "",
   });
-
-  useEffect(() => {
-    if (defaultClubId && !availableClubs.find((c) => c.id === selectedClubId)) {
-      setSelectedClubId(defaultClubId);
-    }
-  }, [defaultClubId, availableClubs, selectedClubId]);
-
-  useEffect(() => {
-    if (selectedClubId) localStorage.setItem("userClubId", selectedClubId);
-  }, [selectedClubId]);
 
   useEffect(() => {
     let mounted = true;
@@ -72,69 +56,73 @@ const MyGroup = () => {
     };
   }, []);
 
-  const selectedClub = getCreatedClubById(selectedClubId) || clubsData[selectedClubId];
-  const isCreatedClub = !!getCreatedClubById(selectedClubId);
-  const baseClub = useMemo(() => {
-    if (selectedClub) {
+  const manageableGroups = getClubsManageableByUser(user?.email);
+
+  // ── Edit-view data ────────────────────────────────────────────────────────
+  const selectedGroup = selectedGroupId ? getCreatedClubById(selectedGroupId) : null;
+  const managedClub = selectedGroupId ? clubEvents[selectedGroupId] : null;
+
+  const baseGroup = useMemo(() => {
+    if (selectedGroup) {
       return {
-        name: selectedClub.name,
-        description: selectedClub.description,
-        customContent: selectedClub.customContent,
-        contact: selectedClub.contact || {},
-        upcomingEvents: selectedClub.upcomingEvents || [],
+        name: selectedGroup.name,
+        description: selectedGroup.description,
+        customContent: selectedGroup.customContent,
+        contact: selectedGroup.contact || {},
+        upcomingEvents: selectedGroup.upcomingEvents || [],
       };
     }
     return { name: "", description: "", customContent: "", contact: {}, upcomingEvents: [] };
-  }, [selectedClub]);
-  const managedClub = clubEvents[selectedClubId];
+  }, [selectedGroup]);
+
   const detailsFromContext = useMemo(
     () =>
       managedClub?.details || {
-        name: baseClub.name,
-        description: baseClub.description,
-        customContent: baseClub.customContent,
-        contact: baseClub.contact,
-        contactEmails: selectedClub?.contactEmails || [],
+        name: baseGroup.name,
+        description: baseGroup.description,
+        customContent: baseGroup.customContent,
+        contact: baseGroup.contact,
+        contactEmails: selectedGroup?.contactEmails || [],
       },
-    [managedClub?.details, baseClub, selectedClub?.contactEmails]
+    [managedClub?.details, baseGroup, selectedGroup?.contactEmails]
   );
 
   const [detailsForm, setDetailsForm] = useState({
-    name: detailsFromContext.name,
-    description: detailsFromContext.description,
-    contactEmail: detailsFromContext.contact?.email || "",
-    contactPhone: detailsFromContext.contact?.phone || "",
-    contactAddress: detailsFromContext.contact?.address || "",
-    customContent: detailsFromContext.customContent,
-    contactEmails: Array.isArray(detailsFromContext.contactEmails) ? [...detailsFromContext.contactEmails] : [],
+    name: "",
+    description: "",
+    contactEmail: "",
+    contactPhone: "",
+    contactAddress: "",
+    customContent: "",
+    contactEmails: [],
   });
 
   useEffect(() => {
-    const nextDetails = {
+    if (!selectedGroupId) return;
+    setDetailsForm({
       name: detailsFromContext.name,
       description: detailsFromContext.description,
       customContent: detailsFromContext.customContent,
       contactEmail: detailsFromContext.contact?.email || "",
       contactPhone: detailsFromContext.contact?.phone || "",
       contactAddress: detailsFromContext.contact?.address || "",
-      contactEmails: Array.isArray(detailsFromContext.contactEmails) ? [...detailsFromContext.contactEmails] : [],
-    };
-    setDetailsForm(nextDetails);
-  }, [selectedClubId, detailsFromContext]);
+      contactEmails: Array.isArray(detailsFromContext.contactEmails)
+        ? [...detailsFromContext.contactEmails]
+        : [],
+    });
+  }, [selectedGroupId, detailsFromContext]);
 
   const displayedEvents = useMemo(() => {
     const fromContext = managedClub?.events;
-    if (fromContext && fromContext.length > 0) {
-      return fromContext.map((event) => event);
-    }
-    return (baseClub.upcomingEvents || []).map((event) => ({
+    if (fromContext && fromContext.length > 0) return fromContext;
+    return (baseGroup.upcomingEvents || []).map((event) => ({
       ...event,
       ...formatMonthDay(event.date),
     }));
-  }, [managedClub?.events, baseClub.upcomingEvents]);
+  }, [managedClub?.events, baseGroup.upcomingEvents]);
 
-  const handleDetailChange = (field) => (event) => {
-    setDetailsForm((prev) => ({ ...prev, [field]: event.target.value }));
+  const handleDetailChange = (field) => (e) => {
+    setDetailsForm((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
   const handleContactEmailChange = (index, value) => {
@@ -160,7 +148,7 @@ const MyGroup = () => {
   };
 
   const handleSaveDetails = () => {
-    if (!selectedClubId) return;
+    if (!selectedGroupId) return;
     setSavingDetails(true);
     const contactEmails = (detailsForm.contactEmails || [])
       .map((e) => (typeof e === "string" ? e.trim() : ""))
@@ -174,25 +162,23 @@ const MyGroup = () => {
         phone: detailsForm.contactPhone,
         address: detailsForm.contactAddress,
       },
-      ...(isCreatedClub && { contactEmails }),
+      contactEmails,
     };
-    updateClubDetails(selectedClubId, details);
-    if (isCreatedClub) {
-      updateCreatedClub(selectedClubId, {
-        name: detailsForm.name,
-        description: detailsForm.description,
-        customContent: detailsForm.customContent,
-        contact: details.contact,
-        contactEmails,
-      });
-    }
+    updateClubDetails(selectedGroupId, details);
+    updateCreatedClub(selectedGroupId, {
+      name: detailsForm.name,
+      description: detailsForm.description,
+      customContent: detailsForm.customContent,
+      contact: details.contact,
+      contactEmails,
+    });
     setStatusMessage("Group details updated.");
     setSavingDetails(false);
     window.setTimeout(() => setStatusMessage(""), 3000);
   };
 
   const handleAddEvent = () => {
-    if (!selectedClubId) return;
+    if (!selectedGroupId) return;
     if (!newEvent.title || !newEvent.date) {
       setStatusMessage("Title and date are required for every event.");
       window.setTimeout(() => setStatusMessage(""), 3000);
@@ -210,23 +196,75 @@ const MyGroup = () => {
       price: newEvent.price ? parseFloat(newEvent.price) : 0,
       signupLink: newEvent.signupLink,
     };
-    addEventToClub(selectedClubId, detailsForm.name, eventToAdd);
-    setNewEvent({
-      title: "",
-      date: "",
-      category: "Event",
-      description: "",
-      price: "",
-      signupLink: "",
-    });
+    addEventToClub(selectedGroupId, detailsForm.name, eventToAdd);
+    setNewEvent({ title: "", date: "", category: "Event", description: "", price: "", signupLink: "" });
     setStatusMessage("Event added to your calendar.");
     window.setTimeout(() => setStatusMessage(""), 3000);
   };
 
+  // ── List view ─────────────────────────────────────────────────────────────
+  if (!selectedGroupId) {
+    return (
+      <div className={styles.page}>
+        <header className={styles.listHeader}>
+          <p className={styles.subTitle}>Admin</p>
+          <h1 className={styles.title}>My Groups</h1>
+          <p className={styles.overview}>
+            {user
+              ? `Logged in as ${user.username || user.email}`
+              : "Loading…"}
+          </p>
+        </header>
+
+        {manageableGroups.length === 0 ? (
+          <div className={styles.emptyState}>
+            <p>You don't manage any groups yet.</p>
+            <p className={styles.note}>
+              Create a group from the Groups page and add your email as a contact.
+            </p>
+          </div>
+        ) : (
+          <div className={styles.groupList}>
+            {manageableGroups.map((group) => (
+              <button
+                key={group.id}
+                className={styles.groupListCard}
+                onClick={() => setSelectedGroupId(group.id)}
+              >
+                <div className={styles.groupListImage}>
+                  {group.profileImageUrl ? (
+                    <img src={group.profileImageUrl} alt={`${group.name} logo`} />
+                  ) : (
+                    <span>{(group.name || "G").slice(0, 2).toUpperCase()}</span>
+                  )}
+                </div>
+                <div className={styles.groupListInfo}>
+                  <h3 className={styles.groupListName}>{group.name}</h3>
+                  <p className={styles.groupListDesc}>{group.description}</p>
+                </div>
+                <span className={styles.groupListArrow}>›</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // ── Edit view ─────────────────────────────────────────────────────────────
   return (
     <div className={styles.page}>
       <header className={styles.hero}>
         <div>
+          <button
+            className={styles.backButton}
+            onClick={() => {
+              setSelectedGroupId(null);
+              setStatusMessage("");
+            }}
+          >
+            ← My Groups
+          </button>
           <p className={styles.subTitle}>My Group</p>
           <h1 className={styles.title}>{detailsForm.name}</h1>
           <p className={styles.overview}>
@@ -234,18 +272,14 @@ const MyGroup = () => {
               ? `${user.username || user.email} manages this group.`
               : "Log in to personalize your group."}
           </p>
-          <p className={styles.note}>
-            This page shows edits for {detailsForm.name}. Choose a different group if
-            you manage multiple communities.
-          </p>
           <div className={styles.status}>{statusMessage}</div>
         </div>
         <div className={styles.previewCard}>
           <div className={styles.imageFrame}>
-            {selectedClub?.profileImageUrl ? (
-              <img src={selectedClub.profileImageUrl} alt="Club logo" />
+            {selectedGroup?.profileImageUrl ? (
+              <img src={selectedGroup.profileImageUrl} alt="Group logo" />
             ) : (
-              <img src={qscLogo} alt="Club logo" />
+              <img src={qscLogo} alt="Group logo" />
             )}
           </div>
           <div>
@@ -266,16 +300,6 @@ const MyGroup = () => {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
           <h2>Group Details</h2>
-          <select
-            value={selectedClubId}
-            onChange={(e) => setSelectedClubId(e.target.value)}
-          >
-            {availableClubs.map((club) => (
-              <option key={club.id} value={club.id}>
-                {club.name}
-              </option>
-            ))}
-          </select>
         </div>
         <div className={styles.formGrid}>
           <label>
@@ -293,45 +317,34 @@ const MyGroup = () => {
               onChange={handleDetailChange("description")}
             />
           </label>
-          {isCreatedClub ? (
-            <label className={styles.fullWidth}>
-              Contact emails (people who can edit this group)
-              {((detailsForm.contactEmails?.length && detailsForm.contactEmails) ? detailsForm.contactEmails : [""]).map((email, index) => (
-                <div key={index} className={styles.contactEmailRow}>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => handleContactEmailChange(index, e.target.value)}
-                    placeholder="email@example.com"
-                  />
-                  <button
-                    type="button"
-                    className={styles.removeEmailButton}
-                    onClick={() => removeContactEmail(index)}
-                    aria-label="Remove email"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                className={styles.addEmailButton}
-                onClick={addContactEmail}
-              >
-                Add another contact email
-              </button>
-            </label>
-          ) : (
-            <label>
-              Contact email
-              <input
-                type="email"
-                value={detailsForm.contactEmail}
-                onChange={handleDetailChange("contactEmail")}
-              />
-            </label>
-          )}
+          <label className={styles.fullWidth}>
+            Contact emails (people who can edit this group)
+            {((detailsForm.contactEmails?.length && detailsForm.contactEmails) ? detailsForm.contactEmails : [""]).map((email, index) => (
+              <div key={index} className={styles.contactEmailRow}>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => handleContactEmailChange(index, e.target.value)}
+                  placeholder="email@example.com"
+                />
+                <button
+                  type="button"
+                  className={styles.removeEmailButton}
+                  onClick={() => removeContactEmail(index)}
+                  aria-label="Remove email"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className={styles.addEmailButton}
+              onClick={addContactEmail}
+            >
+              Add another contact email
+            </button>
+          </label>
           <label>
             Contact phone
             <input
@@ -451,6 +464,24 @@ const MyGroup = () => {
             Add event to calendar
           </button>
         </div>
+      </section>
+
+      <section className={styles.dangerZone}>
+        <h2 className={styles.dangerTitle}>Danger zone</h2>
+        <p className={styles.dangerDesc}>
+          Permanently delete this group and all its events. This cannot be undone.
+        </p>
+        <button
+          className={styles.deleteButton}
+          onClick={() => {
+            if (window.confirm(`Delete "${detailsForm.name}"? This cannot be undone.`)) {
+              deleteClub(selectedGroupId);
+              setSelectedGroupId(null);
+            }
+          }}
+        >
+          Delete group
+        </button>
       </section>
     </div>
   );

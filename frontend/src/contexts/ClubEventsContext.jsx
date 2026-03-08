@@ -207,6 +207,16 @@ export const ClubEventsProvider = ({ children }) => {
     [createdClubs]
   );
 
+  const deleteClub = useCallback((clubId) => {
+    setCreatedClubs((prev) => prev.filter((c) => c.id !== clubId));
+    setSubscribedClubs((prev) => prev.filter((id) => id !== clubId));
+    setClubEvents((prev) => {
+      const next = { ...prev };
+      delete next[clubId];
+      return next;
+    });
+  }, []);
+
   return (
     <ClubEventsContext.Provider
       value={{
@@ -221,6 +231,7 @@ export const ClubEventsProvider = ({ children }) => {
         updateClubDetails,
         isSubscribed,
         addClub,
+        deleteClub,
         getClubsManageableByUser,
         getClubsCreatedByUser,
         getCreatedClubById,

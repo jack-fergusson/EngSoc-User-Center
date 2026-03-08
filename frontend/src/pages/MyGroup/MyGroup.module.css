@@ -248,6 +248,147 @@
   text-decoration: none;
 }
 
+.listHeader {
+  margin-bottom: 32px;
+}
+
+.groupList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 640px;
+}
+
+.groupListCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  background: white;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.groupListCard:hover {
+  box-shadow: 0 8px 24px rgba(102, 0, 153, 0.15);
+  transform: translateY(-2px);
+}
+
+.groupListImage {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #7d63e0, #b28cff);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.groupListImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.groupListInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.groupListName {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.groupListDesc {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.groupListArrow {
+  font-size: 1.4rem;
+  color: var(--color-dark-purple);
+  flex-shrink: 0;
+}
+
+.dangerZone {
+  background: white;
+  border: 1px solid #f5c0c0;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.dangerTitle {
+  color: #c0392b;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.dangerDesc {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.deleteButton {
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1px solid #c0392b;
+  background: #fff5f5;
+  color: #c0392b;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.deleteButton:hover {
+  background: #fde8e8;
+}
+
+.emptyState {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 480px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  color: #555;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: var(--color-dark-purple);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.backButton:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;

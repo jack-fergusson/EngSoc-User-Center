@@ -1,4 +1,4 @@
-const app = require("./app.js");
+const express = require("express");
 const router = express.Router();
 
 router.post("/create", (req, res) => {
@@ -9,4 +9,4 @@ router.get("/ping", (req, res) => {
   res.json({ message: "Event service is alive!" });
 });
 
-export default router;
+module.exports = router;

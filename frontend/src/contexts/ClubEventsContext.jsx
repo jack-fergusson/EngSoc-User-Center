@@ -119,7 +119,7 @@ export const ClubEventsProvider = ({ children }) => {
 
   const updateClubDetails = useCallback((clubId, details) => {
     setClubEvents((prev) => {
-      const existing = prev[clubId] || { clubName: details.name || "My Club", events: [], details: {} };
+      const existing = prev[clubId] || { clubName: details.name || "My Group", events: [], details: {} };
       return {
         ...prev,
         [clubId]: {

@@ -249,7 +249,7 @@ const Groups = () => {
           return (
             <Link
               key={club.id}
-              to={`/club/${club.id}`}
+              to={`/group/${club.id}`}
               className={styles.clubCard}
             >
               <div className={styles.clubImageContainer}>
@@ -358,7 +358,7 @@ const Groups = () => {
                 </div>
               </label>
               <label className={styles.fullWidth}>
-                Contact emails (these people can edit the club on My Club)
+                Contact emails (these people can edit the group on My Group)
                 {(form.contactEmails || [""]).map((email, index) => (
                   <div key={index} className={styles.contactEmailRow}>
                     <input

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import api from "../../api";
 import { useClubEvents } from "../../contexts/ClubEventsContext";
 import { clubsData } from "../../data/clubsData";
-import styles from "./MyClub.module.css";
+import styles from "./MyGroup.module.css";
 import qscLogo from "../../assets/qsc_logo.png";
 
 const formatMonthDay = (dateString) => {
@@ -17,7 +17,7 @@ const formatMonthDay = (dateString) => {
   };
 };
 
-const MyClub = () => {
+const MyGroup = () => {
   const {
     clubEvents,
     addEventToClub,
@@ -186,7 +186,7 @@ const MyClub = () => {
         contactEmails,
       });
     }
-    setStatusMessage("Club details updated.");
+    setStatusMessage("Group details updated.");
     setSavingDetails(false);
     window.setTimeout(() => setStatusMessage(""), 3000);
   };
@@ -227,15 +227,15 @@ const MyClub = () => {
     <div className={styles.page}>
       <header className={styles.hero}>
         <div>
-          <p className={styles.subTitle}>My Club</p>
+          <p className={styles.subTitle}>My Group</p>
           <h1 className={styles.title}>{detailsForm.name}</h1>
           <p className={styles.overview}>
             {user
-              ? `${user.username || user.email} manages this club.`
-              : "Log in to personalize your club."}
+              ? `${user.username || user.email} manages this group.`
+              : "Log in to personalize your group."}
           </p>
           <p className={styles.note}>
-            This page shows edits for {detailsForm.name}. Choose a different club if
+            This page shows edits for {detailsForm.name}. Choose a different group if
             you manage multiple communities.
           </p>
           <div className={styles.status}>{statusMessage}</div>
@@ -265,7 +265,7 @@ const MyClub = () => {
 
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
-          <h2>Club Details</h2>
+          <h2>Group Details</h2>
           <select
             value={selectedClubId}
             onChange={(e) => setSelectedClubId(e.target.value)}
@@ -279,7 +279,7 @@ const MyClub = () => {
         </div>
         <div className={styles.formGrid}>
           <label>
-            Club name
+            Group name
             <input
               value={detailsForm.name}
               onChange={handleDetailChange("name")}
@@ -295,7 +295,7 @@ const MyClub = () => {
           </label>
           {isCreatedClub ? (
             <label className={styles.fullWidth}>
-              Contact emails (people who can edit this club)
+              Contact emails (people who can edit this group)
               {((detailsForm.contactEmails?.length && detailsForm.contactEmails) ? detailsForm.contactEmails : [""]).map((email, index) => (
                 <div key={index} className={styles.contactEmailRow}>
                   <input
@@ -360,7 +360,7 @@ const MyClub = () => {
           onClick={handleSaveDetails}
           disabled={savingDetails}
         >
-          Save club details
+          Save group details
         </button>
       </section>
 
@@ -456,4 +456,4 @@ const MyClub = () => {
   );
 };
 
-export default MyClub;
+export default MyGroup;

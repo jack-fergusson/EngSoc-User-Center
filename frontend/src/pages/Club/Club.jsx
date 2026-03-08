@@ -6,12 +6,12 @@ import styles from "./Club.module.css";
 import qscLogo from "../../assets/qsc_logo.png";
 
 const Club = () => {
-  const { clubId } = useParams();
+  const { groupId } = useParams();
   const { subscribeToClub, unsubscribeFromClub, isSubscribed, getCreatedClubById, clubEvents } = useClubEvents();
 
-  const createdClub = getCreatedClubById(clubId);
-  const contextDetails = clubEvents[clubId]?.details;
-  const clubData = createdClub
+  const createdClub = getCreatedClubById(groupId);
+  const contextDetails = clubEvents[groupId]?.details;
+  const groupData = createdClub
     ? {
         id: createdClub.id,
         name: contextDetails?.name ?? createdClub.name,
@@ -23,22 +23,22 @@ const Club = () => {
         },
         contactEmails: contextDetails?.contactEmails ?? createdClub.contactEmails ?? [],
         customContent: contextDetails?.customContent ?? createdClub.customContent ?? "",
-        upcomingEvents: (clubEvents[clubId]?.events?.length ? clubEvents[clubId].events : createdClub.upcomingEvents || []).map((e) => ({
+        upcomingEvents: (clubEvents[groupId]?.events?.length ? clubEvents[groupId].events : createdClub.upcomingEvents || []).map((e) => ({
           ...e,
           month: e.month || (e.date ? new Date(e.date).toLocaleString("default", { month: "short" }).toUpperCase() : "TBD"),
           day: e.day || (e.date ? String(new Date(e.date).getDate()).padStart(2, "0") : "--"),
         })),
         profileImageUrl: createdClub.profileImageUrl,
       }
-    : clubsData[clubId] || clubsData.qsc;
+    : clubsData[groupId] || clubsData.qsc;
 
-  const isCurrentlySubscribed = isSubscribed(clubData.id);
+  const isCurrentlySubscribed = isSubscribed(groupData.id);
 
   const handleSubscribe = () => {
     if (isCurrentlySubscribed) {
-      unsubscribeFromClub(clubData.id);
+      unsubscribeFromClub(groupData.id);
     } else {
-      subscribeToClub(clubData.id, clubData.name, clubData.upcomingEvents);
+      subscribeToClub(groupData.id, groupData.name, groupData.upcomingEvents);
     }
   };
 
@@ -53,13 +53,13 @@ const Club = () => {
         <aside className={styles.sidebar}>
           <div className={styles.clubCard}>
             <div className={styles.clubImageContainer}>
-              {clubData.profileImageUrl ? (
+              {groupData.profileImageUrl ? (
                 <img
-                  src={clubData.profileImageUrl}
-                  alt={`${clubData.name} Logo`}
+                  src={groupData.profileImageUrl}
+                  alt={`${groupData.name} Logo`}
                   className={styles.clubImage}
                 />
-              ) : clubId === "qsc" ? (
+              ) : groupId === "qsc" ? (
                 <img
                   src={qscLogo}
                   alt="Queen's Space Conference Logo"
@@ -77,24 +77,24 @@ const Club = () => {
                   }}
                 >
                   <span className={styles.clubInitials}>
-                    {(clubData.name || "C").slice(0, 2).toUpperCase()}
+                    {(groupData.name || "G").slice(0, 2).toUpperCase()}
                   </span>
                 </div>
               )}
             </div>
-            <h2 className={styles.clubName}>{clubData.name}</h2>
-            <p className={styles.clubDescription}>{clubData.description}</p>
+            <h2 className={styles.clubName}>{groupData.name}</h2>
+            <p className={styles.clubDescription}>{groupData.description}</p>
             <div className={styles.contactSection}>
               <h3 className={styles.contactHeading}>Contact</h3>
-              {(clubData.contactEmails && clubData.contactEmails.length > 0) ? (
-                clubData.contactEmails.map((em, i) => (
+              {(groupData.contactEmails && groupData.contactEmails.length > 0) ? (
+                groupData.contactEmails.map((em, i) => (
                   <p key={i} className={styles.contactInfo}>{em}</p>
                 ))
               ) : (
-                <p className={styles.contactInfo}>{clubData.contact.email}</p>
+                <p className={styles.contactInfo}>{groupData.contact.email}</p>
               )}
-              <p className={styles.contactInfo}>{clubData.contact.phone}</p>
-              <p className={styles.contactInfo}>{clubData.contact.address}</p>
+              <p className={styles.contactInfo}>{groupData.contact.phone}</p>
+              <p className={styles.contactInfo}>{groupData.contact.address}</p>
             </div>
           </div>
         </aside>
@@ -102,7 +102,7 @@ const Club = () => {
         {/* Main Content */}
         <main className={styles.mainContent}>
           <div className={styles.headerSection}>
-            <h1 className={styles.mainTitle}>{clubData.name}</h1>
+            <h1 className={styles.mainTitle}>{groupData.name}</h1>
             <button
               className={styles.subscribeButton}
               onClick={handleSubscribe}
@@ -119,7 +119,7 @@ const Club = () => {
             </p>
             <div className={styles.customContentBox}>
               <p className={styles.customContentText}>
-                {clubData.customContent}
+                {groupData.customContent}
               </p>
             </div>
           </section>
@@ -128,7 +128,7 @@ const Club = () => {
           <section className={styles.eventsSection}>
             <h2 className={styles.sectionTitle}>Upcoming Events</h2>
             <div className={styles.eventsList}>
-              {(clubData.upcomingEvents || []).map((event, index) => (
+              {(groupData.upcomingEvents || []).map((event, index) => (
                 <div key={event.id} className={styles.eventCard}>
                   <div
                     className={styles.eventDateBox}

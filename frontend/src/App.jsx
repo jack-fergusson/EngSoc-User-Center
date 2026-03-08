@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { ClubEventsProvider } from "./contexts/ClubEventsContext";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
@@ -11,7 +12,23 @@ import FQA from "./pages/FQA/FQA";
 
 import Club from "./pages/Club/Club";
 import Register from "./pages/Register/Register";
-import MyClub from "./pages/MyClub/MyClub";
+import MyGroup from "./pages/MyGroup/MyGroup";
+import api from "./api";
+
+function PrivateRoute({ children }) {
+  const [status, setStatus] = useState("loading");
+
+  useEffect(() => {
+    api
+      .get("/authentication/check", { withCredentials: true })
+      .then((res) => setStatus(res.data.loggedIn ? "ok" : "denied"))
+      .catch(() => setStatus("denied"));
+  }, []);
+
+  if (status === "loading") return null;
+  if (status === "denied") return <Navigate to="/login" replace />;
+  return children;
+}
 
 function App() {
   return (
@@ -26,8 +43,8 @@ function App() {
           <Route path="/groups" element={<Groups />} />
           <Route path="/fqa" element={<FQA />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/club/:clubId" element={<Club />} />
-          <Route path="/my-club" element={<MyClub />} />
+          <Route path="/group/:groupId" element={<Club />} />
+          <Route path="/my-group" element={<PrivateRoute><MyGroup /></PrivateRoute>} />
         </Routes>
       
         <Footer />

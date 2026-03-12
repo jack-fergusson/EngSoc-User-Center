@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api";
+import { useClubEvents } from "../../contexts/ClubEventsContext";
 import styles from "./Navbar.module.css";
 import EngSocLogo from "../../assets/EngSocLogo.png";
 const BACKEND_URL =
@@ -10,6 +11,9 @@ export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { getClubsManageableByUser } = useClubEvents();
+
+  const hasManageableGroups = loggedIn && getClubsManageableByUser(user?.email).length > 0;
 
   // check login status ONCE when navbar loads
   useEffect(() => {
@@ -131,6 +135,11 @@ export default function Navbar() {
         <li>
           <NavLink to="/fqa" onClick={closeMenu}>FQA</NavLink>
         </li>
+        {hasManageableGroups && (
+          <li>
+            <NavLink to="/my-group" onClick={closeMenu}>My Groups</NavLink>
+          </li>
+        )}
 
         {/* LOGIN / LOGOUT TOGGLE */}
         <li>

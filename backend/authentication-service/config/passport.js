@@ -11,7 +11,7 @@ module.exports = function (passport) {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: `${
+        callbackURL: process.env.GOOGLE_CALLBACK_URL || `${
           process.env.VITE_MYBACKEND_ENV || "http://localhost:4000"
         }/authentication/google/callback`,
       },

@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Home.module.css";
+import goKartImage from "../../assets/goKart.png";
+import api from "../../api";
 
 const Home = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -14,6 +16,26 @@ const Home = () => {
     address: "",
   });
 
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Check login status and fetch user info
+    console.log("Checking user info");
+
+    api
+      .get("/authentication/check")
+      .then((res) => {
+        if (!res.data.loggedIn) {
+          window.location.href = "/login"; // Redirect if not logged in
+        } else {
+          setUser(res.data.user); // Set user data
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching user:", err);
+      });
+  }, []);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -26,7 +48,10 @@ const Home = () => {
     }
 
     const newGroup = {
-      id: `${formData.name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Date.now()}`,
+      id: `${formData.name
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")}-${Date.now()}`,
       ...formData,
     };
 
@@ -52,7 +77,8 @@ const Home = () => {
       {/* HERO POPUP */}
       <div className={styles.heroPopup}>
         <h1 className={styles.heroTitle}>
-          Welcome to the <span>New And Improved</span>
+          Welcome, {user?.username || user}, to the{" "}
+          <span>New And Improved</span>
         </h1>
         <h2 className={styles.heroSubtitle}>EngSoc Student Centre</h2>
         <button className={styles.signUpBtn}>Sign Up</button>
@@ -60,48 +86,80 @@ const Home = () => {
 
       {/* NAVBAR BANNER POSTS SECTION */}
       <section className={styles.bannerSection}>
-        <div className={styles.bannerCard}>Title:
-          <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>
+        <div className={styles.bannerCard}>
+          Title:
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque
+            faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi
+            pretium tellus duis convallis. Tempus leo eu aenean sed diam urna
+            tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas.
+            Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut
+            hendrerit semper vel class aptent taciti sociosqu. Ad litora
+            torquent per conubia nostra inceptos himenaeos.
+          </p>
         </div>
 
-        <div className={styles.bannerCard}>Title:
-          <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>
+        <div className={styles.bannerCard}>
+          Title:
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque
+            faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi
+            pretium tellus duis convallis. Tempus leo eu aenean sed diam urna
+            tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas.
+            Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut
+            hendrerit semper vel class aptent taciti sociosqu. Ad litora
+            torquent per conubia nostra inceptos himenaeos.
+          </p>
         </div>
 
-        <div className={styles.bannerCard}>Title:
-          <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>
+        <div className={styles.bannerCard}>
+          Title:
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque
+            faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi
+            pretium tellus duis convallis. Tempus leo eu aenean sed diam urna
+            tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas.
+            Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut
+            hendrerit semper vel class aptent taciti sociosqu. Ad litora
+            torquent per conubia nostra inceptos himenaeos.
+          </p>
         </div>
       </section>
 
       {/* DESIGN TEAMS SECTION */}
       <section className={styles.sectionWrapper}>
-        <h2 className={styles.sectionTitle}>
-          DESIGN TEAMS: <span>Communicate faster</span>
-        </h2>
-
-        <div className={styles.splitContainer}>
+        <div className={styles.sectionContainer}>
           <img
-            src="/assets/designTeamsImg.jpg"
+            src={goKartImage}
             className={styles.sideImage}
             alt="Design Team"
           />
 
-          <div className={styles.postsColumn}>
-            <div className={styles.postCard}>
-              <p className={styles.postAuthor}>Post Title</p>
-              <p className={styles.postText}>
-                Lorem ipsum dolor sit amet consectetur adipiscing elit.
-              </p>
-            </div>
+          <div className={styles.splitContainer}>
+            <h2 className={styles.sectionTitle}>
+              DESIGN TEAMS: <span>Communicate faster</span>
+            </h2>
+            <div className={styles.postsColumn}>
+              <div className={styles.postCard}>
+                <p className={styles.postAuthor}>Post Title</p>
+                <p className={styles.postText}>
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit.
+                </p>
+              </div>
 
-            <div className={styles.postCard}>
-              <p className={styles.postAuthor}>Post Title</p>
-              <p className={styles.postText}>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
-            </div>
+              <div className={styles.postCard}>
+                <p className={styles.postAuthor}>Post Title</p>
+                <p className={styles.postText}>
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit.
+                </p>
+              </div>
 
-            <div className={styles.postCard}>
-              <p className={styles.postAuthor}>Post Title</p>
-              <p className={styles.postText}>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+              <div className={styles.postCard}>
+                <p className={styles.postAuthor}>Post Title</p>
+                <p className={styles.postText}>
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -126,7 +184,8 @@ const Home = () => {
           <div className={styles.calendarBox}>
             <p>Calendar Placeholder</p>
             <p className={styles.helperText}>
-              Use the button above to add a group with the same name and description that will appear on the Groups page.
+              Use the button above to add a group with the same name and
+              description that will appear on the Groups page.
             </p>
           </div>
 
@@ -151,17 +210,25 @@ const Home = () => {
                   </div>
                   <div>
                     <h4 className={styles.groupName}>{group.name}</h4>
-                    <p className={styles.groupDescription}>{group.description}</p>
+                    <p className={styles.groupDescription}>
+                      {group.description}
+                    </p>
                     {(group.email || group.phone || group.address) && (
                       <div className={styles.groupContact}>
                         {group.email && (
-                          <p className={styles.groupContactLine}>Email: {group.email}</p>
+                          <p className={styles.groupContactLine}>
+                            Email: {group.email}
+                          </p>
                         )}
                         {group.phone && (
-                          <p className={styles.groupContactLine}>Phone: {group.phone}</p>
+                          <p className={styles.groupContactLine}>
+                            Phone: {group.phone}
+                          </p>
                         )}
                         {group.address && (
-                          <p className={styles.groupContactLine}>Address: {group.address}</p>
+                          <p className={styles.groupContactLine}>
+                            Address: {group.address}
+                          </p>
                         )}
                       </div>
                     )}
@@ -178,7 +245,8 @@ const Home = () => {
           <form className={styles.groupForm} onSubmit={handleSubmit}>
             <h3>Create a student group</h3>
             <p className={styles.helperText}>
-              Match the fields from the Groups page and add contact info (email, phone, address) that will be surfaced for members.
+              Match the fields from the Groups page and add contact info (email,
+              phone, address) that will be surfaced for members.
             </p>
 
             <label className={styles.formField}>
@@ -276,18 +344,9 @@ const Home = () => {
           </form>
         </div>
       )}
-      {/* FOOTER */}
-      <footer className={styles.footer}>
-        <p>
-          EngSoc Student Centre – Developed by ESSDev<br />
-          © 2025 Queen’s University Engineering Society
-        </p>
-      </footer>
     </div>
   );
 };
-// import { useEffect, useState } from "react";
-// import api from "../../api";
 
 // const Home = () => {
 //   const [user, setUser] = useState(null);

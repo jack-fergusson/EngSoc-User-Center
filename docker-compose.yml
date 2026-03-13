@@ -27,6 +27,8 @@ services:
     build: ./backend/event-service
     ports:
       - "4002:4002"
+    env_file:
+      - ./backend/event-service/.env
     depends_on:
       - authentication-service
     networks:

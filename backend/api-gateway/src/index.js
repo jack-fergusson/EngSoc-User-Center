@@ -44,6 +44,13 @@ app.use(
   createProxyMiddleware({
     target: "http://event-service:4002",
     changeOrigin: true,
+    on: {
+      proxyRes: (proxyRes, req, res) => {
+        const clientOrigin = "http://localhost:3000";
+        res.header("Access-Control-Allow-Origin", clientOrigin);
+        res.header("Access-Control-Allow-Credentials", "true");
+      },
+    },
   })
 );
 

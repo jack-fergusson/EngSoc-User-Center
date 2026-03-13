@@ -29,6 +29,8 @@ const MyGroup = () => {
   const [user, setUser] = useState(null);
   const [selectedGroupId, setSelectedGroupId] = useState(null);
   const [statusMessage, setStatusMessage] = useState("");
+  const [groupEvents, setGroupEvents] = useState([]);
+  const [eventRefresh, setEventRefresh] = useState(0);
   const [savingDetails, setSavingDetails] = useState(false);
   const [detailsSaved, setDetailsSaved] = useState(false);
   const [eventSaved, setEventSaved] = useState(false);
@@ -57,6 +59,16 @@ const MyGroup = () => {
       mounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!selectedGroupId) { setGroupEvents([]); return; }
+    let mounted = true;
+    api
+      .get("/event/events", { params: { clubId: selectedGroupId } })
+      .then((res) => { if (mounted) setGroupEvents(res.data); })
+      .catch(() => {});
+    return () => { mounted = false; };
+  }, [selectedGroupId, eventRefresh]);
 
   const manageableGroups = getClubsManageableByUser(user?.email);
 
@@ -115,13 +127,8 @@ const MyGroup = () => {
   }, [selectedGroupId, detailsFromContext]);
 
   const displayedEvents = useMemo(() => {
-    const fromContext = managedClub?.events;
-    if (fromContext && fromContext.length > 0) return fromContext;
-    return (baseGroup.upcomingEvents || []).map((event) => ({
-      ...event,
-      ...formatMonthDay(event.date),
-    }));
-  }, [managedClub?.events, baseGroup.upcomingEvents]);
+    return groupEvents.map((event) => ({ ...event, ...formatMonthDay(event.date) }));
+  }, [groupEvents]);
 
   const handleDetailChange = (field) => (e) => {
     setDetailsForm((prev) => ({ ...prev, [field]: e.target.value }));
@@ -204,6 +211,7 @@ const MyGroup = () => {
     };
     addEventToClub(selectedGroupId, detailsForm.name, eventToAdd);
     setNewEvent({ title: "", date: "", category: "Event", description: "", price: "", signupLink: "" });
+    setEventRefresh((n) => n + 1);
     setStatusMessage("Event added to your calendar.");
     setEventSaved(true);
     window.setTimeout(() => {

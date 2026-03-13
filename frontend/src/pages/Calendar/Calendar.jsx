@@ -1,86 +1,22 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useClubEvents } from "../../contexts/ClubEventsContext";
-import { getAllClubEvents } from "../../data/clubsData";
+import api from "../../api";
 import styles from "./Calendar.module.css";
 
 const Calendar = () => {
-  // === SAMPLE EVENTS ===
-  const sampleEvents = [
-    {
-      id: 1,
-      title: "EngWeek Kickoff",
-      date: "2025-11-15",
-      category: "Event",
-      group: "EngSoc",
-      description: "Learn the basics of web development in this hands-on workshop.",
-      price: 0,
-      signupLink: 'https://www.engsoc.utoronto.ca/events/engweek-kickoff',
-    },
-    {
-      id: 2,
-      title: "Coding Workshop",
-      date: "2025-11-15",
-      category: "Workshop",
-      group: "CS Club",
-      description: "Learn the basics of web development in this hands-on workshop.",
-      price: 20,
-      signupLink: 'https://www.engsoc.utoronto.ca/events/engweek-kickoff',
-    },
-    {
-      id: 3,
-      title: "Coffeehouse",
-      date: "2025-11-15",
-      category: "Social",
-      group: "AMS",
-      description: "Learn the basics of web development in this hands-on workshop.",
-      price: 5,
-      signupLink: 'https://www.engsoc.utoronto.ca/events/engweek-kickoff',
-    },
-    {
-      id: 4,
-      title: "Math Club Meeting",
-      date: "2025-11-16",
-      category: "Event",
-      group: "MathSoc",
-      description: "Learn the basics of web development in this hands-on workshop.",
-      price: 0,
-      signupLink: 'https://www.engsoc.utoronto.ca/events/engweek-kickoff',
-    },
-  ];
+  const [events, setEvents] = useState([]);
 
-  const { getAllSubscribedEvents } = useClubEvents();
-  
-  const subscribedEvents = useMemo(() => getAllSubscribedEvents(), [getAllSubscribedEvents]);
-  
-  // Get all club events (from all clubs, not just subscribed)
-  const allClubEvents = useMemo(() => getAllClubEvents(), []);
-  
-  // Merge all events: sample events + all club events
-  const events = useMemo(() => {
-    const eventMap = new Map();
-    
-    // Add sample events
-    sampleEvents.forEach((event) => {
-      const key = `${event.group}-${event.title}-${event.date}`;
-      eventMap.set(key, event);
-    });
-    
-    // Add all club events (these will show on calendar regardless of subscription)
-    allClubEvents.forEach((event) => {
-      const key = `${event.group}-${event.title}-${event.date}`;
-      if (!eventMap.has(key)) {
-        eventMap.set(key, event);
-      }
-    });
-    subscribedEvents.forEach((event) => {
-      const key = `${event.group}-${event.title}-${event.date}`;
-      if (!eventMap.has(key)) {
-        eventMap.set(key, event);
-      }
-    });
-    
-    return Array.from(eventMap.values());
-  }, [allClubEvents, subscribedEvents]);
+  useEffect(() => {
+    let mounted = true;
+    api
+      .get("/event/events")
+      .then((res) => {
+        if (mounted) {
+          setEvents(res.data.map((e) => ({ ...e, group: e.groupName })));
+        }
+      })
+      .catch(() => {});
+    return () => { mounted = false; };
+  }, []);
   const uniqueGroups = useMemo(() => {
     const names = events.map((e) => e.group).filter(Boolean);
     return [...new Set(names)].sort();

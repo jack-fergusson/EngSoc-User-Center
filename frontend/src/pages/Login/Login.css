@@ -210,12 +210,6 @@
   }
 
   .login-image {
-    min-height: 220px;
-    padding: 32px;
-  }
-
-  .login-image img {
-    width: 60%;
-    max-width: 280px;
+    display: none;
   }
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
 import goKartImage from "../../assets/goKart.png";
+import highlandGames from "../../assets/highlandGames.png";
 import api from "../../api";
 
 const Home = () => {
@@ -184,13 +185,6 @@ const Home = () => {
                 Organize and <span>schedule</span>
               </h2>
             </div>
-            <button
-              className={styles.createGroupBtn}
-              onClick={handleToggleForm}
-              type="button"
-            >
-              + Create a group
-            </button>
           </div>
 
           <div className={styles.sectionBody}>
@@ -208,144 +202,15 @@ const Home = () => {
               </p>
             </div>
             <img
-              src="/assets/studentGroupsImg.jpg"
+              src={highlandGames}
               className={styles.sectionImage}
               alt="Student Groups"
             />
           </div>
-
-          {createdGroups.length > 0 && (
-            <div className={styles.createdGroupsContainer}>
-              <p className={styles.previewTitle}>Created groups preview</p>
-              <div className={styles.previewGrid}>
-                {createdGroups.map((group) => (
-                  <div key={group.id} className={styles.groupCard}>
-                    <div
-                      className={styles.groupInitials}
-                      style={{ background: group.color }}
-                    >
-                      {group.initials || group.name?.charAt(0) || "G"}
-                    </div>
-                    <div>
-                      <h4 className={styles.groupName}>{group.name}</h4>
-                      <p className={styles.groupDescription}>{group.description}</p>
-                      {(group.email || group.phone || group.address) && (
-                        <div className={styles.groupContact}>
-                          {group.email && <p className={styles.groupContactLine}>Email: {group.email}</p>}
-                          {group.phone && <p className={styles.groupContactLine}>Phone: {group.phone}</p>}
-                          {group.address && <p className={styles.groupContactLine}>Address: {group.address}</p>}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </section>
 
-      {/* ── CREATE GROUP MODAL ── */}
-      {isFormVisible && (
-        <div className={styles.formOverlay}>
-          <form className={styles.groupForm} onSubmit={handleSubmit}>
-            <h3>Create a student group</h3>
-            <p className={styles.helperText}>
-              Add the group's name, description, and contact details. This will
-              appear in the Groups directory.
-            </p>
-
-            <label className={styles.formField}>
-              <span>Name</span>
-              <input
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                placeholder="Queen's Robotics Club"
-                className={styles.formInput}
-                required
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Description</span>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                placeholder="Describe what the group does, where events happen, and what members can expect."
-                className={styles.formTextarea}
-                required
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Image initials</span>
-              <input
-                name="initials"
-                value={formData.initials}
-                onChange={handleInputChange}
-                placeholder="QRC"
-                className={styles.formInput}
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Accent color</span>
-              <input
-                name="color"
-                value={formData.color}
-                onChange={handleInputChange}
-                type="color"
-                className={styles.colorInput}
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Email</span>
-              <input
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="contact@group.ca"
-                className={styles.formInput}
-                type="email"
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Phone</span>
-              <input
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                placeholder="(613) 555-0101"
-                className={styles.formInput}
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Address</span>
-              <input
-                name="address"
-                value={formData.address}
-                onChange={handleInputChange}
-                placeholder="123 Main St, Kingston, ON"
-                className={styles.formInput}
-              />
-            </label>
-
-            <div className={styles.formActions}>
-              <button type="button" className={styles.cancelBtn} onClick={handleToggleForm}>
-                Cancel
-              </button>
-              <button type="submit" className={styles.saveBtn}>
-                Save group
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+      
     </div>
   );
 };

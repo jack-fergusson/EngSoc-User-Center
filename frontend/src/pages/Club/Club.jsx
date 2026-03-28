@@ -1,13 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useClubEvents } from "../../contexts/ClubEventsContext";
 import { clubsData } from "../../data/clubsData";
+import api from "../../api";
 import styles from "./Club.module.css";
 import qscLogo from "../../assets/qsc_logo.png";
 
 const Club = () => {
   const { groupId } = useParams();
   const { subscribeToClub, unsubscribeFromClub, isSubscribed, getCreatedClubById, clubEvents } = useClubEvents();
+  const [user, setUser] = useState(null);
+  const [dbEvents, setDbEvents] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    api
+      .get("/authentication/check")
+      .then((res) => {
+        if (mounted && res.data.loggedIn && res.data.user) {
+          setUser(res.data.user);
+        }
+      })
+      .catch(() => {
+        if (mounted) setUser(null);
+      });
+    return () => { mounted = false; };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    api
+      .get("/event/events", { params: { clubId: groupId } })
+      .then((res) => {
+        if (mounted) setDbEvents(res.data);
+      })
+      .catch(() => {});
+    return () => { mounted = false; };
+  }, [groupId]);
 
   const createdClub = getCreatedClubById(groupId);
   const contextDetails = clubEvents[groupId]?.details;
@@ -23,11 +52,7 @@ const Club = () => {
         },
         contactEmails: contextDetails?.contactEmails ?? createdClub.contactEmails ?? [],
         customContent: contextDetails?.customContent ?? createdClub.customContent ?? "",
-        upcomingEvents: (clubEvents[groupId]?.events?.length ? clubEvents[groupId].events : createdClub.upcomingEvents || []).map((e) => ({
-          ...e,
-          month: e.month || (e.date ? new Date(e.date).toLocaleString("default", { month: "short" }).toUpperCase() : "TBD"),
-          day: e.day || (e.date ? String(new Date(e.date).getDate()).padStart(2, "0") : "--"),
-        })),
+        upcomingEvents: [],
         profileImageUrl: createdClub.profileImageUrl,
       }
     : clubsData[groupId] || clubsData.qsc;
@@ -38,7 +63,7 @@ const Club = () => {
     if (isCurrentlySubscribed) {
       unsubscribeFromClub(groupData.id);
     } else {
-      subscribeToClub(groupData.id, groupData.name, groupData.upcomingEvents);
+      subscribeToClub(groupData.id, groupData.name, []);
     }
   };
 
@@ -103,12 +128,14 @@ const Club = () => {
         <main className={styles.mainContent}>
           <div className={styles.headerSection}>
             <h1 className={styles.mainTitle}>{groupData.name}</h1>
-            <button
-              className={styles.subscribeButton}
-              onClick={handleSubscribe}
-            >
-              {isCurrentlySubscribed ? "Unsubscribe" : "Subscribe"}
-            </button>
+            {user && (
+              <button
+                className={styles.subscribeButton}
+                onClick={handleSubscribe}
+              >
+                {isCurrentlySubscribed ? "Unsubscribe" : "Subscribe"}
+              </button>
+            )}
           </div>
 
           {/* Custom Content Section */}
@@ -128,7 +155,7 @@ const Club = () => {
           <section className={styles.eventsSection}>
             <h2 className={styles.sectionTitle}>Upcoming Events</h2>
             <div className={styles.eventsList}>
-              {(groupData.upcomingEvents || []).map((event, index) => (
+              {dbEvents.map((event, index) => (
                 <div key={event.id} className={styles.eventCard}>
                   <div
                     className={styles.eventDateBox}

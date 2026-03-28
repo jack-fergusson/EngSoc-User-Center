@@ -62,11 +62,8 @@ const normalizeClubForCard = (club) => {
 };
 
 const Groups = () => {
-  const {
-    createdClubs,
-    addClub,
-    isSubscribed,
-  } = useClubEvents();
+  const { addClub, isSubscribed } = useClubEvents();
+  const [clubs, setClubs] = useState([]);
   const [filter, setFilter] = useState(FILTER_ALL);
   const [showAddModal, setShowAddModal] = useState(false);
   const [user, setUser] = useState(null);
@@ -98,22 +95,35 @@ const Groups = () => {
     return () => { mounted = false; };
   }, []);
 
+  useEffect(() => {
+    let mounted = true;
+    api
+      .get("/event/clubs")
+      .then((res) => {
+        if (mounted) setClubs(res.data);
+      })
+      .catch(() => {});
+    return () => { mounted = false; };
+  }, []);
+
   const allClubs = useMemo(() => {
     const fromData = Object.values(clubsData).map((c) => ({ ...c, isCreated: false }));
-    const fromCreated = createdClubs.map((c) => ({
-      id: c.id,
+    const fromDb = clubs.map((c) => ({
+      id: c._id ?? c.id,
       name: c.name,
       description: c.description,
       profileImageUrl: c.profileImageUrl,
       contact: c.contact,
+      contactEmails: c.contactEmails,
       customContent: c.customContent,
       upcomingEvents: c.upcomingEvents || [],
+      createdBy: c.createdBy,
       imageInitials: (c.name || "C").slice(0, 2).toUpperCase(),
       color: "linear-gradient(135deg, #7d63e0, #b28cff)",
       isCreated: true,
     }));
-    return [...fromData, ...fromCreated];
-  }, [createdClubs]);
+    return [...fromData, ...fromDb];
+  }, [clubs]);
 
   const filteredClubs = useMemo(() => {
     if (filter === FILTER_SUBSCRIBED) {
@@ -203,13 +213,13 @@ const Groups = () => {
     setForm((prev) => ({ ...prev, profileImageUrl: "" }));
   };
 
-  const handleCreateClub = () => {
+  const handleCreateClub = async () => {
     if (!form.name.trim()) return;
     const createdBy = user?.email ?? user?.id ?? "anonymous";
     const contactEmails = (form.contactEmails || [""])
       .map((e) => e.trim())
       .filter(Boolean);
-    addClub(
+    const club = await addClub(
       {
         name: form.name.trim(),
         description: form.description.trim(),
@@ -221,6 +231,7 @@ const Groups = () => {
       },
       createdBy
     );
+    if (club) setClubs((prev) => [...prev, club]);
     handleCloseAdd();
   };
 

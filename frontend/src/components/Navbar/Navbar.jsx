@@ -142,7 +142,7 @@ export default function Navbar() {
         )}
 
         {/* LOGIN / LOGOUT TOGGLE */}
-        <li>
+        <li className={styles.loginItem}>
           {loggedIn ? (
             <button className={styles.login} onClick={() => { closeMenu(); handleLogout(); }}>
               Logout

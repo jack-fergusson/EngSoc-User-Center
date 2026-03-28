@@ -1,76 +1,101 @@
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.4vw 2vw;
-  background-image: linear-gradient(
-    to right,
-    var(--color-gray),
-    var(--color-light-purple)
-  );
-  color: black;
-  border-bottom: 0.7px solid black;
-  position: relative;
+  padding: 0 40px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(102, 0, 153, 0.1);
+  box-shadow: 0 1px 12px rgba(102, 0, 153, 0.06);
 }
 
 .logo {
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 10px;
   z-index: 1001;
+  flex-shrink: 0;
 }
 
 .logo img {
-  width: 3vw;
-  margin-right: 0.5vw;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
 .logo h2 * {
-  color: black;
+  color: var(--color-primary);
   text-decoration: none;
-  font-family: "Newsreader", serif;
-  font-weight: 500;
-  font-size: 2vw;
-  color: var(--color-dark-purple);
+  font-family: var(--font-family-serif);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 .links {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 4px;
 }
 
 .links a {
-  color: black;
+  color: #3a3a4a;
   text-decoration: none;
   font-weight: 500;
-  font-size: 1.2vw;
+  font-size: 14px;
   font-family: var(--font-family-body);
-  transition: color 0.3s ease;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: color 0.2s ease, background 0.2s ease;
 }
 
-.links a:hover,
+.links a:hover {
+  color: var(--color-primary);
+  background: rgba(102, 0, 153, 0.06);
+}
+
 .links a.active {
-  color: var(--color-dark-purple);
+  color: var(--color-primary);
+  background: rgba(102, 0, 153, 0.08);
+  font-weight: 600;
+}
+
+/* Strip link hover/active styles from the login button wrapper */
+.loginItem a,
+.loginItem a:hover,
+.loginItem a.active {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
 }
 
 .login {
-  margin: 0 3vw;
-  padding: 1vw 2.5vw;
-  background-color: var(--color-dark-purple);
-  border-radius: var(--border-radius);
+  margin-left: 16px;
+  padding: 8px 20px;
+  background: var(--color-primary);
+  border-radius: 10px;
   border: none;
   color: white;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: var(--font-family-body);
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-size: 1.2vw;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .login:hover {
-  background-color: #550088;
-  transform: translateY(-2px);
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(102, 0, 153, 0.3);
 }
 
 /* Hamburger Menu - Hidden on Desktop */
@@ -80,7 +105,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 8px;
   z-index: 1001;
   gap: 5px;
   justify-content: center;
@@ -91,16 +116,16 @@
 
 .hamburger span {
   display: block;
-  width: 25px;
-  height: 3px;
-  background-color: var(--color-dark-purple);
-  transition: all 0.3s ease;
+  width: 22px;
+  height: 2px;
+  background-color: var(--color-primary);
+  transition: all 0.25s ease;
   border-radius: 2px;
   transform-origin: center;
 }
 
 .hamburger span.active:nth-child(1) {
-  transform: rotate(45deg) translateY(8px);
+  transform: rotate(45deg) translateY(7px);
 }
 
 .hamburger span.active:nth-child(2) {
@@ -109,52 +134,50 @@
 }
 
 .hamburger span.active:nth-child(3) {
-  transform: rotate(-45deg) translateY(-8px);
+  transform: rotate(-45deg) translateY(-7px);
 }
 
-/* Mobile Styles (up to 768px) */
+/* Mobile Styles */
 @media (max-width: 768px) {
   .navbar {
-    padding: 1rem 1.5rem;
-    flex-wrap: wrap;
+    padding: 0 20px;
+    height: 60px;
   }
 
   .logo img {
-    width: 40px;
-    margin-right: 0.5rem;
+    width: 28px;
+    height: 28px;
   }
 
   .logo h2 * {
-    font-size: 1rem;
+    font-size: 15px;
   }
 
   .hamburger {
     display: flex !important;
-    position: relative;
   }
 
   .links {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 70%;
+    width: 72%;
     max-width: 300px;
     height: 100vh;
-    background: linear-gradient(
-      to bottom,
-      var(--color-gray),
-      var(--color-light-purple)
-    );
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 5rem 2rem 2rem;
+    padding: 80px 24px 32px;
     gap: 0;
-    transition: right 0.3s ease;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -4px 0 24px rgba(102, 0, 153, 0.12);
     z-index: 1000;
     overflow-y: auto;
     display: flex !important;
+    border-left: 1px solid var(--color-border);
   }
 
   .links.menuOpen {
@@ -163,91 +186,57 @@
 
   .links li {
     width: 100%;
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .links li:last-child {
     border-bottom: none;
-    margin-top: 1rem;
+    margin-top: 12px;
   }
 
   .links a {
-    font-size: 1.1rem;
+    font-size: 16px;
     display: block;
     width: 100%;
-    padding: 0.5rem 0;
+    padding: 14px 8px;
+    border-radius: 0;
+  }
+
+  .links a:hover {
+    background: none;
   }
 
   .login {
     margin: 0;
-    padding: 0.75rem 1.5rem;
+    padding: 12px 20px;
     width: 100%;
-    font-size: 1rem;
+    font-size: 15px;
+    text-align: center;
   }
 }
 
-/* Tablet Styles (769px to 1024px) */
+/* Tablet Styles */
 @media (min-width: 769px) and (max-width: 1024px) {
   .navbar {
-    padding: 1.2rem 1.5rem;
-  }
-
-  .logo img {
-    width: 2.5vw;
-    margin-right: 0.5rem;
+    padding: 0 28px;
   }
 
   .logo h2 * {
-    font-size: 1.8vw;
-  }
-
-  .links {
-    gap: 1rem;
+    font-size: 16px;
   }
 
   .links a {
-    font-size: 1vw;
+    font-size: 13px;
+    padding: 6px 10px;
   }
 
   .login {
-    margin: 0 1.5vw;
-    padding: 0.8vw 2vw;
-    font-size: 1vw;
+    padding: 7px 16px;
+    font-size: 13px;
   }
 }
 
-/* Large Desktop Styles (1025px and above) */
-@media (min-width: 1025px) {
-  .navbar {
-    padding: 1.4vw 2vw;
-  }
-
-  .logo img {
-    width: 3vw;
-    margin-right: 0.5vw;
-  }
-
-  .logo h2 * {
-    font-size: 2vw;
-  }
-
-  .links {
-    gap: 1.5rem;
-  }
-
-  .links a {
-    font-size: 1.2vw;
-  }
-
-  .login {
-    margin: 0 3vw;
-    padding: 1vw 2.5vw;
-    font-size: 1.2vw;
-  }
-}
-
-/* Backdrop overlay for mobile menu */
+/* Backdrop for mobile */
 .backdrop {
   display: none;
 }
@@ -256,21 +245,14 @@
   .backdrop {
     display: block;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    inset: 0;
+    background: rgba(10, 0, 20, 0.4);
     z-index: 999;
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.25s ease;
   }
 
   @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
 }

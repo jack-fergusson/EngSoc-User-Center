@@ -1,8 +1,10 @@
+/* ─────────────────────────────────────
+   REGISTER PAGE  (mirrors Login styles)
+───────────────────────────────────── */
 .register-container {
   display: flex;
-  height: 100vh;
-  font-family: 'Roboto', sans-serif;
-  margin: 5% 10% 10%;
+  min-height: calc(100vh - 64px);
+  font-family: "Inter", sans-serif;
 }
 
 .register-form {
@@ -11,120 +13,90 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 3rem 2rem;
-  background: rgb(217, 210, 245);
-  color: rgb(22, 22, 22);
-    position: relative;
-  border-radius: 10% 0 0 10%;
-  box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+  padding: 48px 40px;
+  background: #ffffff;
+  max-width: 520px;
 }
+
+.register-form h1 {
+  font-family: "Newsreader", serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #1a0030;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.register-form > p:first-of-type {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+/* Form wrapper — keeps inputs stacked and centered */
 .register-form form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;   /* centers input + button */
+  align-items: center;
 }
 
-.register-form h1 {
-  margin-bottom: 1rem;
-  font-size: 2.3rem;
-  font-weight: bold;
-}
-
-.register-form p {
-  margin-bottom: 2rem;
-  font-size: 1rem;
-  opacity: 0.9;
-}
-
+/* Inputs */
 .register-form input {
-  width: 60%;
-  padding: 0.8rem 1rem;
-  margin-bottom: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  border: none;
-  border-radius: 25px;
-  font-size: 1rem;
+  width: 100%;
+  max-width: 360px;
+  padding: 11px 16px;
+  margin-bottom: 14px;
+  border: 1.5px solid #ddd0f8;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  background: #fdf9ff;
+  color: #1a0030;
   outline: none;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .register-form input:focus {
-  box-shadow: 0 0 8px rgba(255,255,255,0.6);
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
 }
 
-.register-form button {
-  width: 35%;
-  padding: 0.8rem 1rem;
-  margin-top: 1rem;
-  border: none;
-  border-radius: 25px;
-  background-color: #ff6a00;
+/* Register button */
+.register-btn {
+  width: 100%;
+  max-width: 360px;
+  padding: 12px;
+  margin-top: 6px;
+  background: #660099;
   color: white;
-  font-size: 1rem;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
-.register-form button:hover {
-  background-color: #ff8c42;
-  transform: translateY(-2px);
+.register-btn:hover {
+  background: #550088;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(102, 0, 153, 0.3);
 }
 
-.register-form a {
-  margin-top: 1rem;
-  color: rgb(21, 21, 21);
-  text-decoration: underline;
-  font-size: 0.9rem;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
-}
-
-.register-form a:hover {
-  opacity: 1;
-}
-
-.register-image {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #e0e3f8;
-  border-radius: 0 10% 10% 0;
-  overflow: hidden;
-}
-
-.register-image img {
-  max-width: 100%;
-  height: 100%;
-  border-radius: 0 10% 10% 0;
-}
-.message {
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-  font-weight: 500;
-  text-align: center;
-}
-
-.message.success {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.message.error {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
+/* Divider */
 .divider {
-  text-align: center;
-  margin: 1.5rem 0;
   position: relative;
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+  margin: 20px 0;
+  font-size: 13px;
   font-weight: 500;
-  color: #555;
+  color: #94a3b8;
 }
 
 .divider::before,
@@ -132,77 +104,120 @@
   content: "";
   position: absolute;
   top: 50%;
-  width: 40%;
+  width: 42%;
   height: 1px;
-  background: #ccc;
+  background: #ede8ff;
 }
 
-.divider::before {
-  left: 0;
-}
-
-.divider::after {
-  right: 0;
-}
+.divider::before { left: 0; }
+.divider::after  { right: 0; }
 
 /* Google button */
 .google-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 0.7rem 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  color: #444;
+  gap: 10px;
+  background: #ffffff;
+  border: 1.5px solid #ddd0f8;
+  border-radius: 10px;
+  padding: 10px 24px;
+  width: 100%;
+  max-width: 360px;
+  font-size: 14px;
   font-weight: 500;
-  transition: background 0.2s ease;
+  font-family: "Inter", sans-serif;
+  color: #1a0030;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .google-btn:hover {
-  background: #f1f1f1;
+  background: #faf5ff;
+  border-color: #c4b0f0;
 }
 
-.google-btn img.google-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 0.5rem;
+.google-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
 
-.register-btn {
+/* Login link */
+.login-link {
+  margin-top: 20px;
+  font-size: 13px;
+  color: #64748b;
+  text-align: center;
+}
+
+.login-link a {
+  color: #660099;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Messages */
+.message {
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
   width: 100%;
-  padding: 0.7rem;
-  background: var(--color-dark-purple);
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  max-width: 360px;
 }
 
-.register-btn:hover {
-  background: #4b0082;
+.message.success {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
 }
 
+.message.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
 
+/* Illustration side */
+.register-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(140deg, #120024 0%, #3b0068 50%, #660099 100%);
+  overflow: hidden;
+}
+
+.register-image img {
+  width: 80%;
+  max-width: 480px;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.92;
+}
+
+/* Responsive */
 @media (max-width: 900px) {
   .register-container {
-    flex-direction: column;
-    height: auto;
-    margin: 2%;
-    border-radius: 15px;
+    flex-direction: column-reverse;
+    min-height: unset;
   }
 
-  .register-form, .register-image {
-    width: 100%;
-    border-radius: 0;
+  .register-form {
+    max-width: 100%;
+    padding: 40px 24px 48px;
   }
 
-  .register-image img {
-    width: 100%;
-    height: auto;
-    border-radius: 0;
+  .register-image {
+    display: none;
   }
 }

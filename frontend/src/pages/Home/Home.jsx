@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
 import goKartImage from "../../assets/goKart.png";
+import highlandGames from "../../assets/highlandGames.png";
+import organize from "../../assets/organize.png";
 import api from "../../api";
 
 const Home = () => {
@@ -19,16 +22,11 @@ const Home = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Check login status and fetch user info
-    console.log("Checking user info");
-
     api
       .get("/authentication/check")
       .then((res) => {
-        if (!res.data.loggedIn) {
-          window.location.href = "/login"; // Redirect if not logged in
-        } else {
-          setUser(res.data.user); // Set user data
+        if (res.data.loggedIn) {
+          setUser(res.data.user);
         }
       })
       .catch((err) => {
@@ -43,15 +41,10 @@ const Home = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!formData.name.trim() || !formData.description.trim()) {
-      return;
-    }
+    if (!formData.name.trim() || !formData.description.trim()) return;
 
     const newGroup = {
-      id: `${formData.name
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")}-${Date.now()}`,
+      id: `${formData.name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Date.now()}`,
       ...formData,
     };
 
@@ -68,96 +61,114 @@ const Home = () => {
     setIsFormVisible(false);
   };
 
-  const handleToggleForm = () => {
-    setIsFormVisible((prev) => !prev);
-  };
+  const handleToggleForm = () => setIsFormVisible((prev) => !prev);
 
   return (
     <div className={styles.pageWrapper}>
-      {/* HERO POPUP */}
-      <div className={styles.heroPopup}>
-        <h1 className={styles.heroTitle}>
-          Welcome, {user?.username || user}, to the{" "}
-          <span>New And Improved</span>
-        </h1>
-        <h2 className={styles.heroSubtitle}>EngSoc Student Centre</h2>
-        <button className={styles.signUpBtn}>Sign Up</button>
-      </div>
 
-      {/* NAVBAR BANNER POSTS SECTION */}
-      <section className={styles.bannerSection}>
-        <div className={styles.bannerCard}>
-          Title:
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque
-            faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi
-            pretium tellus duis convallis. Tempus leo eu aenean sed diam urna
-            tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas.
-            Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut
-            hendrerit semper vel class aptent taciti sociosqu. Ad litora
-            torquent per conubia nostra inceptos himenaeos.
+      {/* ── HERO ── */}
+      <section className={styles.hero}>
+        <div className={styles.heroOrb1} aria-hidden="true" />
+        <div className={styles.heroOrb2} aria-hidden="true" />
+        <div className={styles.heroContent}>
+          <p className={styles.heroWelcome}>
+            {user?.username ? `Welcome back, ${user.username}` : "Welcome to EngSoc"}
           </p>
-        </div>
-
-        <div className={styles.bannerCard}>
-          Title:
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque
-            faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi
-            pretium tellus duis convallis. Tempus leo eu aenean sed diam urna
-            tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas.
-            Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut
-            hendrerit semper vel class aptent taciti sociosqu. Ad litora
-            torquent per conubia nostra inceptos himenaeos.
+          <h1 className={styles.heroHeading}>
+            EngSoc<br />
+            <span>Student Centre</span>
+          </h1>
+          <p className={styles.heroSub}>
+            Your central hub for engineering clubs, events, and student life at
+            Queen's University.
           </p>
-        </div>
-
-        <div className={styles.bannerCard}>
-          Title:
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque
-            faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi
-            pretium tellus duis convallis. Tempus leo eu aenean sed diam urna
-            tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas.
-            Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut
-            hendrerit semper vel class aptent taciti sociosqu. Ad litora
-            torquent per conubia nostra inceptos himenaeos.
-          </p>
+          <div className={styles.heroCtas}>
+            <Link to="/groups" className={styles.ctaPrimary}>
+              Explore Groups
+            </Link>
+            <Link to="/calendar" className={styles.ctaSecondary}>
+              View Calendar
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* DESIGN TEAMS SECTION */}
-      <section className={styles.sectionWrapper}>
-        <div className={styles.sectionContainer}>
-          <img
-            src={goKartImage}
-            className={styles.sideImage}
-            alt="Design Team"
-          />
+      {/* ── PLATFORM HIGHLIGHTS ── */}
+      <section className={styles.highlights}>
+        <div className={styles.highlightsGrid}>
+          <div className={styles.highlightCard}>
+            <div className={styles.highlightIcon}>
+              <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+            </div>
+            <h3>Stay Informed</h3>
+            <p>Get the latest announcements and updates from your groups and design teams all in one place.</p>
+          </div>
 
-          <div className={styles.splitContainer}>
-            <h2 className={styles.sectionTitle}>
-              DESIGN TEAMS: <span>Communicate faster</span>
-            </h2>
+          <div className={styles.highlightCard}>
+            <div className={styles.highlightIcon}>
+              <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+            </div>
+            <h3>Design Teams</h3>
+            <p>Connect with Queen's top engineering design teams and follow their project updates and milestones.</p>
+          </div>
+
+          <div className={styles.highlightCard}>
+            <div className={styles.highlightIcon}>
+              <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <h3>Student Groups</h3>
+            <p>Discover clubs, join communities, and manage your extra-curricular schedule all in one platform.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── DESIGN TEAMS ── */}
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
+          <div className={styles.sectionHeader}>
+            <div>
+              <p className={styles.sectionLabel}>Design Teams</p>
+              <h2 className={styles.sectionTitle}>
+                Communicate <span>faster</span>
+              </h2>
+            </div>
+          </div>
+          <div className={styles.sectionBody}>
+            <img
+              src={goKartImage}
+              className={styles.sectionImage}
+              alt="EngSoc Design Team"
+            />
             <div className={styles.postsColumn}>
               <div className={styles.postCard}>
-                <p className={styles.postAuthor}>Post Title</p>
+                <p className={styles.postTitle}>QHX — Formula Hybrid Update</p>
                 <p className={styles.postText}>
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit.
+                  The Queen's Human Powered Vehicle team is gearing up for their
+                  next competition. Check out their latest build progress.
                 </p>
               </div>
-
               <div className={styles.postCard}>
-                <p className={styles.postAuthor}>Post Title</p>
+                <p className={styles.postTitle}>QMIND Showcase Coming Soon</p>
                 <p className={styles.postText}>
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit.
+                  Queen's Machine Intelligence applications are ready to
+                  present. Register to attend the spring showcase event.
                 </p>
               </div>
-
               <div className={styles.postCard}>
-                <p className={styles.postAuthor}>Post Title</p>
+                <p className={styles.postTitle}>QRET Rocket Launch Recap</p>
                 <p className={styles.postText}>
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit.
+                  Queen's Rocketry &amp; Engineering Team successfully launched
+                  at the Spaceport America Cup. Read the full recap.
                 </p>
               </div>
             </div>
@@ -165,213 +176,38 @@ const Home = () => {
         </div>
       </section>
 
-      {/* STUDENT GROUPS SECTION */}
-      <section className={styles.sectionWrapper}>
-        <div className={styles.sectionTitleRow}>
-          <h2 className={styles.sectionTitle}>
-            STUDENT GROUPS: <span>Organize and schedule</span>
-          </h2>
-          <button
-            className={styles.createGroupBtn}
-            onClick={handleToggleForm}
-            type="button"
-          >
-            Create a new group
-          </button>
-        </div>
-
-        <div className={styles.splitContainer}>
-          <div className={styles.calendarBox}>
-            <p>Calendar Placeholder</p>
-            <p className={styles.helperText}>
-              Use the button above to add a group with the same name and
-              description that will appear on the Groups page.
-            </p>
-          </div>
-
-          <img
-            src="/assets/studentGroupsImg.jpg"
-            className={styles.sideImage}
-            alt="Student Groups"
-          />
-        </div>
-
-        {createdGroups.length > 0 && (
-          <div className={styles.createdGroupsContainer}>
-            <h3 className={styles.previewTitle}>Created groups preview</h3>
-            <div className={styles.previewGrid}>
-              {createdGroups.map((group) => (
-                <div key={group.id} className={styles.groupCard}>
-                  <div
-                    className={styles.groupInitials}
-                    style={{ background: group.color }}
-                  >
-                    {group.initials || group.name?.charAt(0) || "G"}
-                  </div>
-                  <div>
-                    <h4 className={styles.groupName}>{group.name}</h4>
-                    <p className={styles.groupDescription}>
-                      {group.description}
-                    </p>
-                    {(group.email || group.phone || group.address) && (
-                      <div className={styles.groupContact}>
-                        {group.email && (
-                          <p className={styles.groupContactLine}>
-                            Email: {group.email}
-                          </p>
-                        )}
-                        {group.phone && (
-                          <p className={styles.groupContactLine}>
-                            Phone: {group.phone}
-                          </p>
-                        )}
-                        {group.address && (
-                          <p className={styles.groupContactLine}>
-                            Address: {group.address}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
+      {/* ── STUDENT GROUPS ── */}
+      <section className={`${styles.section} ${styles.sectionAlt}`}>
+        <div className={styles.sectionInner}>
+          <div className={styles.sectionHeader}>
+            <div>
+              <p className={styles.sectionLabel}>Student Groups</p>
+              <h2 className={styles.sectionTitle}>
+                Organize and <span>schedule</span>
+              </h2>
             </div>
           </div>
-        )}
+
+          <div className={styles.sectionBody}>
+            <div className={styles.calendarBox}>
+              <img
+              src={organize}
+              // className={styles.sectionImage}
+              alt="Student Groups"
+            />
+            </div>
+            <img
+              src={highlandGames}
+              className={styles.sectionImage}
+              alt="Student Groups"
+            />
+          </div>
+        </div>
       </section>
 
-      {isFormVisible && (
-        <div className={styles.formOverlay}>
-          <form className={styles.groupForm} onSubmit={handleSubmit}>
-            <h3>Create a student group</h3>
-            <p className={styles.helperText}>
-              Match the fields from the Groups page and add contact info (email,
-              phone, address) that will be surfaced for members.
-            </p>
-
-            <label className={styles.formField}>
-              <span>Name</span>
-              <input
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                placeholder="Queen's Robotics Club"
-                className={styles.formInput}
-                required
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Description</span>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                placeholder="Describe what the group does, where events happen, and what members can expect."
-                className={styles.formTextarea}
-                required
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Image initials</span>
-              <input
-                name="initials"
-                value={formData.initials}
-                onChange={handleInputChange}
-                placeholder="QRC"
-                className={styles.formInput}
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Accent color</span>
-              <input
-                name="color"
-                value={formData.color}
-                onChange={handleInputChange}
-                type="color"
-                className={styles.colorInput}
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Email</span>
-              <input
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="contact@group.ca"
-                className={styles.formInput}
-                type="email"
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Phone</span>
-              <input
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                placeholder="(613) 555-0101"
-                className={styles.formInput}
-              />
-            </label>
-
-            <label className={styles.formField}>
-              <span>Address</span>
-              <input
-                name="address"
-                value={formData.address}
-                onChange={handleInputChange}
-                placeholder="123 Main St, Kingston, ON"
-                className={styles.formInput}
-              />
-            </label>
-
-            <div className={styles.formActions}>
-              <button
-                type="button"
-                className={styles.cancelBtn}
-                onClick={handleToggleForm}
-              >
-                Cancel
-              </button>
-              <button type="submit" className={styles.saveBtn}>
-                Save group
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+      
     </div>
   );
 };
-
-// const Home = () => {
-//   const [user, setUser] = useState(null);
-
-//   useEffect(() => {
-//     // Check login status and fetch user info
-//     api
-//       .get("/authentication/check")
-//       .then((res) => {
-//         if (!res.data.loggedIn) {
-//           window.location.href = "/login"; // Redirect if not logged in
-//         } else {
-//           setUser(res.data.user); // Set user data
-//         }
-//       })
-//       .catch((err) => {
-//         console.error("Error fetching user:", err);
-//       });
-//   }, []);
-
-//   return (
-//     <div>
-//       <h1>{user ? `Welcome ${user.username}` : "Loading..."}</h1>
-//     </div>
-//   );
-// };
 
 export default Home;

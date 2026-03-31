@@ -1,13 +1,38 @@
 :root {
+  /* Fonts */
   --font-family-serif: "Newsreader", serif;
   --font-family-sans: "Lexend", sans-serif;
   --font-family-body: "Inter", sans-serif;
 
+  /* Brand colors */
+  --color-primary: #660099;
+  --color-primary-dark: #550088;
+  --color-accent: #6b4cff;
+  --color-accent-light: #b250ff;
+
+  /* Legacy aliases kept for backward compatibility */
+  --color-dark-purple: #660099;
   --color-gray: #f0f0f0c2;
   --color-dark-gray: #878787;
   --color-light-purple: #e6c4ff61;
-  --color-dark-purple: #660099;
-  --border-radius: 8px;
 
+  /* Surface colors */
+  --color-surface: #fafafa;
+  --color-surface-alt: #faf7ff;
+  --color-border: #ede8ff;
+
+  /* Text */
+  --color-text: #1a0030;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
   --text-color: #4e4e4e;
+
+  /* Radii */
+  --border-radius: 12px;
+  --border-radius-lg: 18px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(102, 0, 153, 0.07);
+  --shadow-md: 0 8px 24px rgba(102, 0, 153, 0.11);
+  --shadow-lg: 0 20px 50px rgba(102, 0, 153, 0.15);
 }
